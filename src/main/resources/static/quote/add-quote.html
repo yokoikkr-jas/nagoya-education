@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add a Quote</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            width: 300px;
+            height: 350px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            width: 100%;
+            padding: 15px 32px;
+            font-size: 16px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .back-button {
+            background-color: #ccc;
+            color: #333;
+            margin-top: 20px;
+            padding: 15px 32px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Add a New Quote</h1>
+        <form id="quoteForm">
+            <label for="text">Quote:</label>
+            <input type="text" id="text" name="text" required>
+
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author" required>
+
+            <input type="submit" value="Submit">
+        </form>
+        <button class="back-button" onclick="location.href='quotes-home.html'">戻る</button>
+    </div>
+    <script>
+        document.getElementById('quoteForm').onsubmit = function (event) {
+            event.preventDefault();
+            const quoteText = document.getElementById('text').value;
+            const quoteAuthor = document.getElementById('author').value;
+
+            const quote = {
+                text: quoteText,
+                author: quoteAuthor
+            };
+
+            fetch('http://localhost:8080/quotes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(quote)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data)
+                    alert('Quote added successfully!');
+                    document.getElementById('quoteForm').reset();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while adding the quote.');
+                });
+        }
+    </script>
+</body>
+
+</html>
