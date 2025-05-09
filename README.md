@@ -8,7 +8,7 @@
 - Windows10
 - 独立環境に接続した端末で実施すること
 
-## 手順
+## セットアップ
 ### VSCodeのインストール
 1. [ここ](https://qiita.com/furu38/items/6776acba6621012ee475)の手順にしたがって、VSCodeをインストールする\
 日本語化までの手順でOK、CloudFormationのインストール以降は実施不要
@@ -23,15 +23,30 @@
 1. [ここ](https://www.oracle.com/jp/java/technologies/downloads/#jdk21-windows)からJDKをインストールする\
 インストーラーは[JDK 21] > [Windows] > [x64 Installer]を選択
 2. [ここ](https://www.javadrive.jp/start/install/index4.html)の手順にしたがって、環境変数を設定する\
-JDK、Windowsのバージョンが違うが、気にしなくてOK
+JDK、Windowsのバージョンが違うが、自端末のバージョンで読み替えてOK
 
 ### MVNのインストール
+1. [ここ](https://web-dev.hatenablog.com/entry/maven/windows-install)の手順にしたがって、Mavenをインストールする
 
 ### Gitのインストール
 1. [ここ](https://qiita.com/nmosfet556/items/5c306380ddf46a58e6a2)の手順にしたがって、Gitをインストールする\
-初期設定手順ででてくる"user.name"は自分のフルネーム、"user.email"はJASメールアドレスとしてください\
+初期設定手順ででてくる"user.name"は自分のフルネーム、"user.email"はJASメールアドレスとしてください
     ```
     $ git config --global user.name "kakeru yokoi"
     $ git config --global user.email "yokoikkr@jastec.co.jp"
     ```
-リポジトリのURL：
+   クローン（複製）はこのリポジトリのURLを使ってください（下記参考）\
+   そうするとVsCode上でも手順書やソースを見れるはず
+   <img src="image-1.png" width="80%">
+
+## アプリケーションの初回起動
+1. ソースのビルド（mvn clean、mvn packageコマンド2つが一緒になってる）
+    ```
+    > mvn clean package  
+    ```
+2. アプリケーションの立ち上げ
+    ```
+    > mvn spring-boot:run 
+    ```
+3. ブラウザ上で`http://localhost:8080/`にアクセスすることで、立ち上げたアプリケーションの初期画面が出てくる
+4. `Ctr + C`でアプリケーションを停止する
