@@ -45,14 +45,66 @@
         .back-button:hover {
             background-color: #bbb;
         }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            padding: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #555;
+        }
     </style>
 </head>
 
 <body>
     <h1>All Quotes</h1>
+    <div class="search-container">
+        <input type="text" id="searchBox" class="search-box" placeholder="Search for quotes...">
+        <div class="search-options">
+            <label><input type="radio" name="searchOption" value="text" checked>名言</label>
+            <label><input type="radio" name="searchOption" value="author" checked>著者</label>
+            <label><input type="radio" name="searchOption" value="both" checked>両方</label>
+        </div>
+        <button class="search-button" onclick="searchQuotes()">Search</button>
+    </div>
     <ul id="quotesList"></ul>
     <button class="back-button" onclick="location.href='quotes-home.html'">戻る</button>
     <script>
+        function searchQuotes() {
+            const query = document.getElementById('searchBox').value;
+            const searchOption = document.querySelector('input[name="searchOption"]:checked').value;
+            fetch(`/quotes/search?query=${query}&option=${searchOption}`)
+                .then(response => response.json())
+                .then(data => {
+                    const quoteList = document.getElementById('quotesList');
+                    quoteList.innerHTML = '';
+                    data.forEach(quote => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${quote.text}-${quote.author}`;
+                        quoteList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching quotes:', error));
+        }
+
         fetch('/quotes')
             .then(response => response.json())
             .then(data => {

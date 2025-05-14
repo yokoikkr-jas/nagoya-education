@@ -10,6 +10,7 @@ import com.example.demo.quote.service.QuoteService;
 import com.example.demo.quote.model.Quote;
 
 import java.util.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/quotes")
@@ -30,5 +31,14 @@ public class QuoteController {
     @GetMapping("/random")
     public Quote getRandomQuote() {
         return quoteService.getRandomQuote();
+    }
+
+    @GetMapping("/search")
+    public List<Quote> searchQuotes(@RequestParam String query, @RequestParam String option) {
+        // 課題3 名言検索メソッド(部分一致)
+        // 引数optionには、名言のみ：text、著者：author、両方：bothがくる
+        List<Quote> a = new ArrayList();
+        a.add(new Quote(query, option));
+        return a;
     }
 }

@@ -7,20 +7,53 @@ import com.example.demo.quote.repository.QuoteRepository;
 
 import java.util.*;
 
+/**
+ * 名言管理システムサービスクラス（ビジネスロジックをまとめるメソッド）
+ * 
+ * @author JAS横井
+ * @since 2025/05/09
+ */
 @Service
 public class QuoteService {
 
     @Autowired
     private QuoteRepository quoteRepository;
 
+    /**
+     * 名言一覧取得メソッド
+     * 
+     * @author JAS横井
+     * @since 2025/05/09
+     * 
+     * @return 全ての名言オブジェクトのリスト
+     */
     public List<Quote> getAllQuotes() {
-        return quoteRepository.findAll();
+        List<Quote> allQuotes = quoteRepository.findAll();
+        return allQuotes;
     }
 
+    /**
+     * 名言登録メソッド
+     * 
+     * @author JAS横井
+     * @since 2025/05/09
+     * 
+     * @param quote 登録する名言オブジェクト
+     * @return 実際に登録した名言オブジェクト
+     */
     public Quote addQuote(Quote quote) {
-        return quoteRepository.save(quote);
+        Quote savedQuote = quoteRepository.save(quote);
+        return savedQuote;
     }
 
+    /**
+     * ランダム名言メソッド
+     * 
+     * @author JAS横井
+     * @since 2025/05/09
+     * 
+     * @return 取得した名言オブジェクト
+     */
     public Quote getRandomQuote() {
         List<Quote> quotes = quoteRepository.findAll();
         if (quotes.isEmpty()) {
@@ -28,6 +61,7 @@ public class QuoteService {
         }
 
         Random random = new Random();
-        return quotes.get(random.nextInt(quotes.size()));
+        Quote randomQuote = quotes.get(random.nextInt(quotes.size()));
+        return randomQuote;
     }
 }
