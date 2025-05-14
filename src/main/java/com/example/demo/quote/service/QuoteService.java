@@ -43,6 +43,7 @@ public class QuoteService {
      */
     public Quote addQuote(Quote quote) {
         Quote savedQuote = quoteRepository.save(quote);
+        // 課題2 登録時の外部ファイル書き込み
         return savedQuote;
     }
 

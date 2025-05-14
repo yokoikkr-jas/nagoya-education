@@ -23,7 +23,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: left;
             width: 300px;
-            height: 350px;
+            height: 400px;
         }
 
         h1 {
@@ -79,12 +79,20 @@
         .back-button:hover {
             background-color: #bbb;
         }
+
+        .quote-count {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #333;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <h1>Add a New Quote</h1>
+        <div class="quote-count" id="quoteCount"></div>
         <form id="quoteForm">
             <label for="text">Quote:</label>
             <input type="text" id="text" name="text" required>
@@ -119,12 +127,25 @@
                     console.log('Success:', data)
                     alert('Quote added successfully!');
                     document.getElementById('quoteForm').reset();
+                    updateQuoteCount();
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                     alert('An error occurred while adding the quote.');
                 });
         }
+
+        function updateQuoteCount() {
+            fetch('http://localhost:8080/quotes/count')
+                .then(response => response.json())
+                .then(count => {
+                    document.getElementById('quoteCount').textContent = `Total Quotes:${count}`;
+                })
+                .catch(error => console.error('Error fetching quote count:', error));
+        }
+
+        //Initial count update
+        updateQuoteCount();
     </script>
 </body>
 
