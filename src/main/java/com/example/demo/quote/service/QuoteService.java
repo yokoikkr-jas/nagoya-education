@@ -8,7 +8,7 @@ import com.example.demo.quote.repository.QuoteRepository;
 import java.util.*;
 
 /**
- * 名言管理システムサービスクラス（ビジネスロジックをまとめるメソッド）
+ * 名言管理システムサービスクラス（ビジネスロジックをまとめるクラス）
  * 
  * @author JAS横井
  * @since 2025/05/09

@@ -12,6 +12,12 @@ import com.example.demo.quote.model.Quote;
 import java.util.*;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * 名言管理システムコントローラークラス （画面（フロント）側からリクエストを受け取り、サービスクラスのメソッドを呼び出す）
+ * 
+ * @author JAS横井
+ * @since 2025/05/09
+ */
 @RestController
 @RequestMapping("/quotes")
 public class QuoteController {
