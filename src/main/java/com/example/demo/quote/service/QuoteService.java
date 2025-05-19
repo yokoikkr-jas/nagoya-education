@@ -28,8 +28,13 @@ public class QuoteService {
      * @return 全ての名言オブジェクトのリスト
      */
     public List<Quote> getAllQuotes() {
-        List<Quote> allQuotes = quoteRepository.findAll();
-        return allQuotes;
+        try {
+            List<Quote> allQuotes = quoteRepository.findAll();
+            return allQuotes;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -42,9 +47,14 @@ public class QuoteService {
      * @return 実際に登録した名言オブジェクト
      */
     public Quote addQuote(Quote quote) {
-        Quote savedQuote = quoteRepository.save(quote);
-        // 課題2 登録時の外部ファイル書き込み
-        return savedQuote;
+        try {
+            Quote savedQuote = quoteRepository.save(quote);
+            // 課題2 登録時の外部ファイル書き込み
+            return savedQuote;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -56,13 +66,18 @@ public class QuoteService {
      * @return 取得した名言オブジェクト
      */
     public Quote getRandomQuote() {
-        List<Quote> quotes = quoteRepository.findAll();
-        if (quotes.isEmpty()) {
+        try {
+            List<Quote> quotes = quoteRepository.findAll();
+            if (quotes.isEmpty()) {
+                return null;
+            }
+
+            Random random = new Random();
+            Quote randomQuote = quotes.get(random.nextInt(quotes.size()));
+            return randomQuote;
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
-
-        Random random = new Random();
-        Quote randomQuote = quotes.get(random.nextInt(quotes.size()));
-        return randomQuote;
     }
 }
