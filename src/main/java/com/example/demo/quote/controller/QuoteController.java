@@ -46,7 +46,7 @@ public class QuoteController {
     public List<Quote> searchQuotes(@RequestParam String query, @RequestParam String option) {
         // 課題3 検索機能(部分一致)
         // 引数optionには、名言のみ：text、著者：author、両方：bothがくる
-        List<Quote> a = new ArrayList();
+        List<Quote> a = new ArrayList<>();
         a.add(new Quote("hoge query", "hoge author"));
         return a;
     }
@@ -55,7 +55,7 @@ public class QuoteController {
     public List<Quote> searchByLength(@RequestParam String length, @RequestParam String condition) {
         // 課題4 検索機能（文字数検索）
         // 引数optionには、以下：less、著者：equal、両方：greaterがくる
-        List<Quote> a = new ArrayList();
+        List<Quote> a = new ArrayList<>();
         a.add(new Quote("hoge query", "hoge author"));
         return a;
     }
