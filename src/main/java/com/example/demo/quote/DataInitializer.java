@@ -14,7 +14,7 @@ public class DataInitializer implements CommandLineRunner {
     /**
      * データベースを初期化するメソッド
      * 
-     * @author JAS横井
+     * @author 横井
      * @since 2025/05/09
      * 
      * @param args コマンドライン引数

@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * 名言管理システムサービスクラス（ビジネスロジックをまとめるクラス）
  * 
- * @author JAS横井
+ * @author 横井
  * @since 2025/05/09
  */
 @Service
@@ -22,7 +22,7 @@ public class QuoteService {
     /**
      * 名言一覧取得メソッド
      * 
-     * @author JAS横井
+     * @author 横井
      * @since 2025/05/09
      * 
      * @return 全ての名言オブジェクトのリスト
@@ -35,7 +35,7 @@ public class QuoteService {
     /**
      * 名言登録メソッド
      * 
-     * @author JAS横井
+     * @author 横井
      * @since 2025/05/09
      * 
      * @param quote 登録する名言オブジェクト
@@ -50,7 +50,7 @@ public class QuoteService {
     /**
      * ランダム名言メソッド
      * 
-     * @author JAS横井
+     * @author 横井
      * @since 2025/05/09
      * 
      * @return 取得した名言オブジェクト
