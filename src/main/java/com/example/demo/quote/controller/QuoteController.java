@@ -33,6 +33,7 @@ public class QuoteController {
     @PostMapping
     public Quote addQuote(@RequestBody Quote quote) {
         Quote savedQuote = quoteService.addQuote(quote);
+        int a = 1;
         return savedQuote;
     }
 
