@@ -84,7 +84,7 @@ public class QuoteService {
     /**
      * 名言の全数をカウントするメソッド
      * 
-     * @author JAS平野
+     * @author 平野
      * @since 2025/05/23
      * 
      * @return 取得したQuoteオブジェクト
@@ -93,7 +93,7 @@ public class QuoteService {
     public int countQuotes() {
         try {
             int count = 0;
-            List<Quote> countList = getAllQuotes();
+            List<Quote> countList = quoteRepository.findAll();
             count = countList.size();
             return count;
         } catch (Exception e) {
