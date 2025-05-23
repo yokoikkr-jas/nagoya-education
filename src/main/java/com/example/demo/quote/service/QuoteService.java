@@ -80,4 +80,27 @@ public class QuoteService {
             return null;
         }
     }
+
+    /**
+     * 名言の全数をカウントするメソッド
+     * 
+     * @author JAS平野
+     * @since 2025/05/23
+     * 
+     * @return 取得したQuoteオブジェクト
+     */
+
+    public int countQuotes() {
+        try {
+            int count = 0;
+            List<Quote> countList = getAllQuotes();
+            count = countList.size();
+            return count;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
+
 }
