@@ -33,7 +33,6 @@ public class QuoteController {
     @PostMapping
     public Quote addQuote(@RequestBody Quote quote) {
         Quote savedQuote = quoteService.addQuote(quote);
-        int a = 1;
         return savedQuote;
     }
 
@@ -76,7 +75,7 @@ public class QuoteController {
     @GetMapping("/count")
     public int countQuotes() {
         // 課題6 名言の全数カウント
-        int count = 0;
-        return count;
+        int countquote = quoteService.countQuotes();
+        return countquote;
     }
 }
