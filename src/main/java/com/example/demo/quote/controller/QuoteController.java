@@ -77,31 +77,27 @@ public class QuoteController {
         // 課題5 名言の統計情報
         Map<String, Object> a = new HashMap<>();
         Quote b = new Quote("hoge quote", "hoge author");
-        a.put("averageLength", 3);
-        a.put("longestQuote", b);
-        a.put("shortestQuote", b);
 
         List<Quote> allQuotes = quoteService.getAllQuotes();
         // リストから全てのquotesを取得
 
-        int MAX_LENGTH = 0;
+        int MAX_LENGTH = Integer.MAX_VALUE;
         // 最長文字数の初期値設定
-        int MIN_LENGTH = 0;
+        int MIN_LENGTH = Integer.MIN_VALUE;
         // 最短文字数の初期値設定
-        double TOTAL_LENGTH = 0;
+        int TOTAL_LENGTH = 0;
         // 全ての文字数の合計の初期値設定
 
         for (Quote q : allQuotes) {
             // 各要素を順番に取り出して最後の名言まで調べる
 
-            List<Quote> getAllQuotes = new ArrayList<>();
-            // 名言のみを取り出す
+            String quote = q.getText();
+            // 名言を得る処理
 
-            String quote = "";
             int length = quote.length();
             // 名言の文字数を数える
 
-            TOTAL_LENGTH += quote.length();
+            TOTAL_LENGTH += length;
             // 名言文字数を足していく
 
             if (quote.length() > MAX_LENGTH) {
@@ -117,17 +113,12 @@ public class QuoteController {
             }
         }
 
-        double averageLength = TOTAL_LENGTH / allQuotes.size();
+        int averageLength = TOTAL_LENGTH / allQuotes.size();
         // 名言文字数の平均を調べる
 
-        System.out.println("averageLength:" + TOTAL_LENGTH / allQuotes.size());
-        // 名言の文字数の平均を表示
-
-        System.out.println("longestQuote:" + "MAX_LENGTH");
-        // 全ての名言文字列の中から最長文字数の名言を表示
-
-        System.out.println("shortestQuote：" + "MIN_LENGTH");
-        // 全ての名言文字列の中から最短文字数をの名言を表示
+        a.put("averageLength", averageLength);
+        a.put("longestQuote", b);
+        a.put("shortestQuote", b);
 
         return a;
     }
