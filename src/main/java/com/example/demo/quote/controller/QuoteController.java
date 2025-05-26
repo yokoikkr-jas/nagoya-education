@@ -63,11 +63,8 @@ public class QuoteController {
     /**
      * 統計情報を収集するメソッド
      * 
-     * @author JAS横山
+     * @author 横山
      * @since 2025/05/26
-     * @param averageLength  全ての名言の平均文字数
-     * @param longestLength  名言の最長文字数
-     * @param shortestLength 名言の最短文字数
      * 
      * @return 名言の統計情報（平均・最長・最短）を返す
      * 
@@ -75,8 +72,14 @@ public class QuoteController {
     @GetMapping("/statistics")
     public Map<String, Object> getQuoteStatistics() {
         // 課題5 名言の統計情報
-        Map<String, Object> a = new HashMap<>();
-        Quote b = new Quote("hoge quote", "hoge author");
+        Map<String, Object> statistics = new HashMap<>();
+
+        Quote size = new Quote("hoge quote", "hoge author");
+        size.setText("hoge quote");
+        // sizeを更新していく処理を追加
+
+        QuoteService quoteService = new QuoteService();
+        // QuoteControllerクラスがQuoteServiceクラスを呼び出す処理を追加
 
         List<Quote> allQuotes = quoteService.getAllQuotes();
         // リストから全てのquotesを取得
@@ -88,10 +91,10 @@ public class QuoteController {
         int TOTAL_LENGTH = 0;
         // 全ての文字数の合計の初期値設定
 
-        for (Quote q : allQuotes) {
+        for (Quote quotes : allQuotes) {
             // 各要素を順番に取り出して最後の名言まで調べる
 
-            String quote = q.getText();
+            String quote = quotes.getText();
             // 名言を得る処理
 
             int length = quote.length();
@@ -100,15 +103,15 @@ public class QuoteController {
             TOTAL_LENGTH += length;
             // 名言文字数を足していく
 
-            if (quote.length() > MAX_LENGTH) {
+            if (length > MAX_LENGTH) {
                 // 最長文字数に文字数の多いほうを入れる
-                MAX_LENGTH = quote.length();
+                MAX_LENGTH = length;
                 // 代入した名言オブジェクトを格納する
             }
 
-            if (quote.length() < MIN_LENGTH) {
+            if (length < MIN_LENGTH) {
                 // 最短文字数に文字数の短いほうを代入
-                MIN_LENGTH = quote.length();
+                MIN_LENGTH = length;
                 // 代入した名言オブジェクトを格納する
             }
         }
@@ -116,11 +119,11 @@ public class QuoteController {
         int averageLength = TOTAL_LENGTH / allQuotes.size();
         // 名言文字数の平均を調べる
 
-        a.put("averageLength", averageLength);
-        a.put("longestQuote", b);
-        a.put("shortestQuote", b);
+        statistics.put("averageLength", averageLength);
+        statistics.put("longestQuote", size);
+        statistics.put("shortestQuote", size);
 
-        return a;
+        return statistics;
     }
 
     @GetMapping("/count")
