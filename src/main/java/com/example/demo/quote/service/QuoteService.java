@@ -14,6 +14,10 @@ import java.util.*;
  * 
  * @author 横井
  * @since 2025/05/09
+ * 
+ * @author 鈴木
+ * @since 2025/05/26
+ * @version 1.1
  */
 @Service
 public class QuoteService {
@@ -48,12 +52,13 @@ public class QuoteService {
      * @param quote 登録する名言オブジェクト
      * @return 実際に登録した名言オブジェクト
      * 
-     * @author
-     * @since 2025/05/23
+     * @author 鈴木
+     * @since 2025/05/26
      * 
-     * @param
-     * @return
-     * @throw
+     * @param quote 登録する名言オブジェクト
+     * @return 実際に登録した名言オブジェクト
+     * @throw Exception 外部ファイルが開かない場合
+     *        外部ファイルに書き込みできない場合
      */
     public Quote addQuote(Quote quote) {
         try {
@@ -74,6 +79,7 @@ public class QuoteService {
                 writer.write(",");
                 writer.write(author);
                 writer.newLine();
+                return savedQuote;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -81,7 +87,6 @@ public class QuoteService {
                 writer.close();
             }
 
-            return savedQuote;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
