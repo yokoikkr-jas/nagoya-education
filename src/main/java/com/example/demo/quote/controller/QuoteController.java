@@ -47,7 +47,7 @@ public class QuoteController {
         // 課題3 検索機能(部分一致)
         // 引数optionには、名言のみ：text、著者：author、両方：bothがくる
         List<Quote> a = new ArrayList<>();
-        a.add(new Quote("hoge query", "hoge author"));
+        a.addAll(QuoteService.partialMatch(query, option)); // 指定した文字列と部分一致するリストをaに加える
         return a;
     }
 

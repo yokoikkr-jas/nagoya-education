@@ -80,4 +80,56 @@ public class QuoteService {
             return null;
         }
     }
+
+    /**
+     * 部分一致処理を行うメソッド
+     * 
+     * @auhor 太田
+     * @since 2025/05/26
+     * 
+     * @param searchString
+     * @param subject
+     * @return 指定した文字列と部分一致する名言オブジェクトのリスト
+     */
+    public List<Quote> partialMatch(String searchString, String subject) {
+        try {
+            List<Quote> b = new ArrayList<>(); // 一致する名言オブジェクトの格納先を作成
+            switch (subject) { // optionによる分岐（名言のみ、著者、両方）
+                case "text":
+                    for (Quote q : getAllQuotes()) { // リストサイズの分だけ繰り返す
+                        if (q.getText().contains(searchString)) { // 指定した文字列と部分一致するものをtrue
+                            b.add(q);
+                        }
+                    }
+                    break;
+                case "author":
+                    for (Quote q : getAllQuotes()) {
+                        if (q.getAuthor().contains(searchString)) {
+                            b.add(q);
+                        }
+                    }
+                    break;
+                case "both":
+                    for (Quote q : getAllQuotes()) {
+                        if (q.getText().contains(searchString)) {
+                            b.add(q);
+                        } else if (q.getAuthor().contains(searchString)) {
+                            b.add(q);
+                        }
+                    }
+                    break;
+            }
+
+            if (b == null) { // 部分一致する文字列のリストbが空の場合、nullを返却
+                return null;
+            }
+
+            return b;
+
+        } catch (Exception e) {
+            e.printStackTrace(); // スタックトレースを出力する
+            return null;
+        }
+    }
+
 }
