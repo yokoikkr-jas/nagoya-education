@@ -47,7 +47,7 @@ public class QuoteController {
         // 課題3 検索機能(部分一致)
         // 引数optionには、名言のみ：text、著者：author、両方：bothがくる
         List<Quote> a = new ArrayList<>();
-        a.addAll(quoteService.partialMatch(query, option)); // 指定された文字列と部分一致するリストをaに加える
+        a.addAll(quoteService.partialMatch(query, option));
         return a;
     }
 
