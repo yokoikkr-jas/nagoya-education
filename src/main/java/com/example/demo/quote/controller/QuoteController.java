@@ -55,6 +55,10 @@ public class QuoteController {
     public List<Quote> searchByLength(@RequestParam String length, @RequestParam String condition) {
         // 課題4 検索機能（文字数検索）
         // 引数optionには、以下：less、著者：equal、両方：greaterがくる
+
+        List<Quote> search = QuoteService.searchByLength(String length, String condition);
+        return search;
+
         List<Quote> a = new ArrayList<>();
         a.add(new Quote("hoge query", "hoge author"));
         return a;

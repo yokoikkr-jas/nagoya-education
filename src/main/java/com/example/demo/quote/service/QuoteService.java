@@ -107,7 +107,7 @@ public class QuoteService {
 
                 if (condition.equals("less")) {
                     int quotelength = textquotes.length();// 名言オブジェクトを文字数に変換
-                    int ilength = Integer.parseInt(length);// 検索文字数をString型かたint型に変換
+                    int ilength = Integer.parseInt(length);// 検索文字数をString型からint型に変換
 
                     if (ilength > quotelength) {
                         list.add(text);
