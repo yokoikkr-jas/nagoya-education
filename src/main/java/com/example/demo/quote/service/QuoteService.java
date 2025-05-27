@@ -66,7 +66,8 @@ public class QuoteService {
             // 課題2 登録時の外部ファイル書き込み
             String text = savedQuote.getText();
             String author = savedQuote.getAuthor();
-            String fileName = "src\\main\\java\\com\\example\\demo\\quote\\Quote.csv";
+            String fileName = "src\\main\\java\\com\\"
+                    + "example\\demo\\quote\\Quote.csv";
             // text：名言オブジェクトに格納されている名言
             // author：名言オブジェクトに格納されている著者
             // fileName：外部ファイルの相対パス
