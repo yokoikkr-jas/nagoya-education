@@ -93,11 +93,11 @@ public class QuoteService {
      */
     public List<Quote> partialMatch(String searchString, String subject) {
         try {
-            List<Quote> b = new ArrayList<>(); // 部分一致する名言オブジェクトの格納先を作成
+            List<Quote> b = new ArrayList<>(); // 部分一致する名言オブジェクトの格納先
             switch (subject) { // optionによる分岐（名言のみ、著者、両方）
                 case "text":
-                    for (Quote q : getAllQuotes()) { // DBにあるリストのサイズまで繰り返す
-                        if (q.getText().contains(searchString)) { // 指定された文字列と部分一致するものをtrue
+                    for (Quote q : getAllQuotes()) { // DB上リストのサイズまで繰り返す
+                        if (q.getText().contains(searchString)) { // 部分一致:true
                             b.add(q);
                         }
                     }
