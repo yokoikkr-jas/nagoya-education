@@ -80,4 +80,66 @@ public class QuoteService {
             return null;
         }
     }
+
+
+    /**
+     * 文字数検索メソッド
+     * 
+     * @author 平野
+     * @since 2025/05/27
+     * 
+     * @param length 検索文字数
+     * @param condition 以下、同じ、以上の引数
+     * @return 取得した名言オブジェクトを格納したリスト
+     */
+    public List<Quote> searchByLength(String length, String condition) {
+        try {
+            List<Quote> searchList = quoteRepository.findAll();
+
+            if (length == null) {
+                return null;
+            }
+
+            List<Quote> list = new ArrayList<>();// 条件を満たしたQuoteオブジェクトを格納するリストを定義
+
+            for (Quote text : searchList) {// searchListからQuoteオブジェクトを一行ずつ取り出す
+                String textquotes = text.getText();// getText()で名言オブジェクトのみ取り出す
+
+                if (condition.equals("less")) {
+                    int quotelength = textquotes.length();// 名言オブジェクトを文字数に変換
+                    int ilength = Integer.parseInt(length);// 検索文字数をString型かたint型に変換
+
+                    if (ilength > quotelength) {
+                        list.add(text);
+                    }
+                }
+
+                if (condition.equals("equal")) {
+                    int quotelength = textquotes.length();
+                    int ilength = Integer.parseInt(length);
+
+                    if (ilength == quotelength) {
+                        list.add(text);
+                    }
+                }
+
+                if (condition.equals("greater")) {
+                    int quotelength = textquotes.length();
+                    int ilength = Integer.parseInt(length);
+
+                    if (ilength < quotelength) {
+                        list.add(text);
+                    }
+                }
+            }
+            return list;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
 }
