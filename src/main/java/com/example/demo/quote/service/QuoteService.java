@@ -14,10 +14,6 @@ import java.util.*;
  * 
  * @author 横井
  * @since 2025/05/09
- * 
- * @author 鈴木
- * @since 2025/05/26
- * @version 1.1
  */
 @Service
 public class QuoteService {
@@ -45,12 +41,6 @@ public class QuoteService {
 
     /**
      * 名言登録メソッド
-     * 
-     * @author 横井
-     * @since 2025/05/09
-     * 
-     * @param quote 登録する名言オブジェクト
-     * @return 実際に登録した名言オブジェクト
      * 
      * @author 鈴木
      * @since 2025/05/26
