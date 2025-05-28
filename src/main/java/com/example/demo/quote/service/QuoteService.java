@@ -97,17 +97,20 @@ public class QuoteService {
                 return null;
             }
 
+            // DBに登録された全ての名言オブジェクトを取得
             List<Quote> searchList = quoteRepository.findAll();
 
             // 条件を満たしたQuoteオブジェクトを格納するリストを定義
             List<Quote> list = new ArrayList<>();
 
+            int ilength = Integer.parseInt(length);// 検索文字数をint型に変換
+
             for (Quote text : searchList) {// searchListからQuoteオブジェクトを一行ずつ取り出す
                 String textquotes = text.getText();// getText()で名言オブジェクトのみ取り出す
 
+                int quotelength = textquotes.length();// 名言オブジェクトを文字数に変換
+
                 if (condition.equals("less")) {
-                    int quotelength = textquotes.length();// 名言オブジェクトを文字数に変換
-                    int ilength = Integer.parseInt(length);// 検索文字数をint型に変換
 
                     if (ilength > quotelength) {
                         list.add(text);
@@ -115,8 +118,6 @@ public class QuoteService {
                 }
 
                 if (condition.equals("equal")) {
-                    int quotelength = textquotes.length();
-                    int ilength = Integer.parseInt(length);
 
                     if (ilength == quotelength) {
                         list.add(text);
@@ -124,8 +125,6 @@ public class QuoteService {
                 }
 
                 if (condition.equals("greater")) {
-                    int quotelength = textquotes.length();
-                    int ilength = Integer.parseInt(length);
 
                     if (ilength < quotelength) {
                         list.add(text);
