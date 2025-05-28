@@ -81,33 +81,33 @@ public class QuoteService {
         }
     }
 
-
     /**
      * 文字数検索メソッド
      * 
      * @author 平野
-     * @since 2025/05/27
+     * @since 2025/05/28
      * 
-     * @param length 検索文字数
-     * @param condition 以下、同じ、以上の引数
+     * @param length    検索欄に入力された検索文字数
+     * @param condition 以下、同じ、以上の文字数比較条件
      * @return 取得した名言オブジェクトを格納したリスト
      */
     public List<Quote> searchByLength(String length, String condition) {
         try {
-            List<Quote> searchList = quoteRepository.findAll();
-
-            if (length == null) {
+            if (length == null) {// 検索欄に検索文字数が入力されずに検索されたとき
                 return null;
             }
 
-            List<Quote> list = new ArrayList<>();// 条件を満たしたQuoteオブジェクトを格納するリストを定義
+            List<Quote> searchList = quoteRepository.findAll();
+
+            // 条件を満たしたQuoteオブジェクトを格納するリストを定義
+            List<Quote> list = new ArrayList<>();
 
             for (Quote text : searchList) {// searchListからQuoteオブジェクトを一行ずつ取り出す
                 String textquotes = text.getText();// getText()で名言オブジェクトのみ取り出す
 
                 if (condition.equals("less")) {
                     int quotelength = textquotes.length();// 名言オブジェクトを文字数に変換
-                    int ilength = Integer.parseInt(length);// 検索文字数をString型からint型に変換
+                    int ilength = Integer.parseInt(length);// 検索文字数をint型に変換
 
                     if (ilength > quotelength) {
                         list.add(text);
@@ -139,7 +139,5 @@ public class QuoteService {
             return null;
         }
     }
-
-
 
 }
