@@ -84,7 +84,7 @@ public class QuoteService {
     /**
      * 部分一致検索を行うメソッド
      * 
-     * @auhor 太田
+     * @author 太田
      * @since 2025/05/26
      * 
      * @param searchString
