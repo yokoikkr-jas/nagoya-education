@@ -60,70 +60,14 @@ public class QuoteController {
         return a;
     }
 
-    /**
-     * 統計情報を収集するメソッド
-     * 
-     * @author 横山
-     * @since 2025/05/26
-     * 
-     * @return 名言の統計情報（平均・最長・最短）を返す
-     * 
-     */
     @GetMapping("/statistics")
     public Map<String, Object> getQuoteStatistics() {
         // 課題5 名言の統計情報
-        Map<String, Object> statistics = new HashMap<>();
 
-        Quote size = new Quote("hoge quote", "hoge author");
-        size.setText("hoge quote");
-        // sizeを更新していく処理を追加
+        Map<String, Object> sta = quoteService.getQuoteStatistics();
+        // QuoteServiceクラスの対象メソッドを呼び出す
 
-        QuoteService quoteService = new QuoteService();
-        // QuoteControllerクラスがQuoteServiceクラスを呼び出す処理を追加
-
-        List<Quote> allQuotes = quoteService.getAllQuotes();
-        // リストから全てのquotesを取得
-
-        int MAX_LENGTH = Integer.MAX_VALUE;
-        // 最長文字数の初期値設定
-        int MIN_LENGTH = Integer.MIN_VALUE;
-        // 最短文字数の初期値設定
-        int TOTAL_LENGTH = 0;
-        // 全ての文字数の合計の初期値設定
-
-        for (Quote quotes : allQuotes) {
-            // 各要素を順番に取り出して最後の名言まで調べる
-
-            String quote = quotes.getText();
-            // 名言を得る処理
-
-            int length = quote.length();
-            // 名言の文字数を数える
-
-            TOTAL_LENGTH += length;
-            // 名言文字数を足していく
-
-            if (length > MAX_LENGTH) {
-                // 最長文字数に文字数の多いほうを入れる
-                MAX_LENGTH = length;
-                // 代入した名言オブジェクトを格納する
-            }
-
-            if (length < MIN_LENGTH) {
-                // 最短文字数に文字数の短いほうを代入
-                MIN_LENGTH = length;
-                // 代入した名言オブジェクトを格納する
-            }
-        }
-
-        int averageLength = TOTAL_LENGTH / allQuotes.size();
-        // 名言文字数の平均を調べる
-
-        statistics.put("averageLength", averageLength);
-        statistics.put("longestQuote", size);
-        statistics.put("shortestQuote", size);
-
-        return statistics;
+        return sta;
     }
 
     @GetMapping("/count")
