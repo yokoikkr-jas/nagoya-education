@@ -56,15 +56,8 @@ public class QuoteController {
         // 課題4 検索機能（文字数検索）
         // 引数conditionには、以下：less、同じ：equal、以上：greaterがくる
 
-        List<Quote> search = quoteService.searchByLength(length, condition);// searchByLengthメソッドの呼び出し
-
-        // 検索結果が空(条件に一致する名言がなかったとき)ならデフォルト値を返す
-        if (search.isEmpty()) {
-            List<Quote> emplist = new ArrayList<>();
-            emplist.add(new Quote("hoge query", "hoge author"));
-            return emplist;
-        }
-
+        // searchByLengthメソッドの呼び出し
+        List<Quote> search = quoteService.searchByLength(length, condition);
         return search;
     }
 

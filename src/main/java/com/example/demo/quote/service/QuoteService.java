@@ -85,9 +85,9 @@ public class QuoteService {
      * 文字数検索メソッド
      * 
      * @author 平野
-     * @since 2025/05/28
+     * @since 2025/05/29
      * 
-     * @param length    検索欄に入力された検索文字数
+     * @param length 検索欄に入力された検索文字数
      * @param condition 以下、同じ、以上の文字数比較条件
      * @return 取得した名言オブジェクトを格納したリスト
      */
@@ -105,28 +105,30 @@ public class QuoteService {
 
             int ilength = Integer.parseInt(length);// 検索文字数をint型に変換
 
-            for (Quote text : searchList) {// searchListからQuoteオブジェクトを一行ずつ取り出す
-                String textquotes = text.getText();// getText()で名言オブジェクトのみ取り出す
+            if (condition.equals("less")) {
+                for (Quote text : searchList) {// searchListからQuoteオブジェクトを一行ずつ取り出す
+                    String textQuotes = text.getText();// getText()で名言オブジェクトのみ取り出す
+                    int quoteLength = textQuotes.length();// 名言オブジェクトを文字数に変換
 
-                int quotelength = textquotes.length();// 名言オブジェクトを文字数に変換
-
-                if (condition.equals("less")) {
-
-                    if (ilength > quotelength) {
+                    if (ilength > quoteLength) {
                         list.add(text);
                     }
                 }
+            } else if (condition.equals("equal")) {
+                for (Quote text : searchList) {
+                    String textQuotes = text.getText();
+                    int quoteLength = textQuotes.length();
 
-                if (condition.equals("equal")) {
-
-                    if (ilength == quotelength) {
+                    if (ilength == quoteLength) {
                         list.add(text);
                     }
                 }
+            } else if (condition.equals("greater")) {
+                for (Quote text : searchList) {
+                    String textQuotes = text.getText();
+                    int quoteLength = textQuotes.length();
 
-                if (condition.equals("greater")) {
-
-                    if (ilength < quotelength) {
+                    if (ilength < quoteLength) {
                         list.add(text);
                     }
                 }
