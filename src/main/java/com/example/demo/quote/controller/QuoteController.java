@@ -64,10 +64,10 @@ public class QuoteController {
     public Map<String, Object> getQuoteStatistics() {
         // 課題5 名言の統計情報
 
-        Map<String, Object> sta = quoteService.getQuoteStatistics();
+        Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
         // QuoteServiceクラスの対象メソッドを呼び出す
 
-        return sta;
+        return statisticsResult;
     }
 
     @GetMapping("/count")

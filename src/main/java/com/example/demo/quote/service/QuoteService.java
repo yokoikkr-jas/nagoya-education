@@ -101,68 +101,68 @@ public class QuoteService {
         Map<String, Object> statistics = new HashMap<>();
 
         List<Quote> allQuotes = quoteRepository.findAll();
-        // リストから全てのquotesを取得
 
-        int MAX_LENGTH = Integer.MAX_VALUE;
-        // 最長文字数の初期値設定
-        int MIN_LENGTH = Integer.MIN_VALUE;
-        // 最短文字数の初期値設定
-        int TOTAL_LENGTH = 0;
+        // 全てのquotesを取得
+
+        if (allQuotes.isEmpty()) {
+            // もし名言オブジェクト一覧が空ならば、
+            return statistics;
+            // statisticsを返却（追加）
+        }
+
+        int maxLength = Integer.MIN_VALUE;
+        // 最長を求めるため、最も小さい値で初期化
+
+        int minLength = Integer.MAX_VALUE;
+        // 最短を求めるため、最も大きい値で初期化
+
+        int totalLength = 0;
         // 全ての文字数の合計の初期値設定
 
-        Quote MAX_BOX = new Quote();
+        Quote maxBox = new Quote();
         // 最長を格納する箱
-        Quote MIN_BOX = new Quote();
+        Quote minBox = new Quote();
         // 最短を格納する箱
-
-        int count = 0;
 
         for (Quote quotes : allQuotes) {
             // 各要素を順番に取り出して最後の名言まで調べる
-            count++;
+
             String quote = quotes.getText();
             // 名言を得る処理
 
             int length = quote.length();
             // 名言の文字数を数える
 
-            TOTAL_LENGTH += length;
+            totalLength += length;
             // 名言文字数を足していく
 
-            if (length > MAX_LENGTH) {
+            if (length > maxLength) {
 
-                MAX_LENGTH = length;
-                // 最長文字数に文字数の多いほうを入れる
+                maxLength = length;
+                // より大きな値を更新
 
-                MAX_BOX = quotes;
+                maxBox = quotes;
                 // 最長の名言オブジェクトを格納する
 
             }
 
-            if (length < MIN_LENGTH) {
+            else if (length < minLength) {
 
-                MIN_LENGTH = length;
-                // 最短文字数に文字数の短いほうを代入
+                minLength = length;
+                // より小さな値を更新
 
-                MIN_BOX = quotes;
+                minBox = quotes;
                 // 最短の名言オブジェクトを格納する
 
             }
         }
 
-        int averageLength = 0;
-
-        if (allQuotes.size() == 0) {
-            // 0のとき
-
-            averageLength = TOTAL_LENGTH / allQuotes.size();
-            // 名言文字数の平均を調べる
-
-        }
+        int averageLength = totalLength / allQuotes.size();
+        // 名言文字数の平均を調べる処理
 
         statistics.put("averageLength", averageLength);
-        statistics.put("longestQuote", MAX_BOX);
-        statistics.put("shortestQuote", MIN_BOX);
+        statistics.put("longestQuote", maxBox);
+        statistics.put("shortestQuote", minBox);
 
         return statistics;
     }
