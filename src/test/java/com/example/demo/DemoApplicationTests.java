@@ -1,17 +1,13 @@
 package com.example.demo;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-
-// 追加コード
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
-import java.util.Arrays;
-import java.util.List;
-
-
+import com.example.demo.quote.model.Quote;
+import com.example.demo.quote.repository.QuoteRepository;
+import com.example.demo.quote.service.QuoteService;
 
 @SpringBootTest
 class DemoApplicationTests {
@@ -35,6 +31,7 @@ class DemoApplicationTests {
 
 		// アサーション（期待値との比較）
 		assertEquals(3, count);
+
 	}
 
 }
