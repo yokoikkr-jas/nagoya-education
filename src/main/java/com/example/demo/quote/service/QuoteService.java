@@ -88,7 +88,7 @@ public class QuoteService {
      * @since 2025/05/29
      * 
      * @param length 検索欄に入力された検索文字数
-     * @param condition 以下、同じ、以上の文字数比較条件
+     * @param condition 未満、同じ、より大きいの文字数比較条件
      * @return 取得した名言オブジェクトを格納したリスト
      */
     public List<Quote> searchByLength(String length, String condition) {
@@ -105,7 +105,7 @@ public class QuoteService {
 
             int ilength = Integer.parseInt(length);// 検索文字数をint型に変換
 
-            if (condition.equals("less")) {
+            if (condition.equals("Less than")) {
                 for (Quote text : searchList) {// searchListからQuoteオブジェクトを一行ずつ取り出す
                     String textQuotes = text.getText();// getText()で名言オブジェクトのみ取り出す
                     int quoteLength = textQuotes.length();// 名言オブジェクトを文字数に変換
@@ -114,7 +114,7 @@ public class QuoteService {
                         list.add(text);
                     }
                 }
-            } else if (condition.equals("equal")) {
+            } else if (condition.equals("Equal to")) {
                 for (Quote text : searchList) {
                     String textQuotes = text.getText();
                     int quoteLength = textQuotes.length();
@@ -123,7 +123,7 @@ public class QuoteService {
                         list.add(text);
                     }
                 }
-            } else if (condition.equals("greater")) {
+            } else if (condition.equals("Greater than")) {
                 for (Quote text : searchList) {
                     String textQuotes = text.getText();
                     int quoteLength = textQuotes.length();
