@@ -372,7 +372,7 @@ public class QuoteServiceTest {
         allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
         allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
         allList.add((new Quote("僕の大冒険", "僕")));
-        Mockito.when(quoteRepositoryMock.findAll()).thenThrow(new RuntimeException("テスト例外"));
+        Mockito.when(quoteRepositoryMock.findAll()).thenThrow(new RuntimeException());
         List<Quote> method = quoteService.partialMatch("僕", "text");
         assertNull(method);
 
