@@ -101,9 +101,9 @@ public class QuoteServiceTest {
         Quote quote = new Quote("text1", "author1");
         Quote q = quoteService.addQuote(quote);
 
-        // csvFile1.toFile().setReadable(false, false);
+        csvFile1.toFile().setReadable(false, false);
         assertFalse(csvFile1.toFile().canRead());
-        // assertNull(q);
+        assertNull(q);
     }
 
     /*
