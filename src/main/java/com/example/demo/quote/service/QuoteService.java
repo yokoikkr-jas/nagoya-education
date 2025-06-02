@@ -103,7 +103,8 @@ public class QuoteService {
 
     }
 
-    // 追加したメソッド
+
+    // テストで追加したメソッド
     public QuoteService(QuoteRepository quoteRepository) {
         this.quoteRepository = quoteRepository;
     }

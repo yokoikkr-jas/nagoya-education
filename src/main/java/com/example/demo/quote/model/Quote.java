@@ -46,4 +46,10 @@ public class Quote {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+
+    /*
+     * 追加したメソッド public Quote(String text) { // このコンストラクタがないとエラーになる this.text = text; }
+     */
+
 }
