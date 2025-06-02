@@ -120,7 +120,7 @@ public class QuoteService {
                     break;
             }
 
-            if (b == null) { // 部分一致する文字列のリストbが空の場合、nullを返却
+            if (b.isEmpty()) { // 部分一致する文字列のリストbが空の場合、nullを返却
                 return null;
             }
 
