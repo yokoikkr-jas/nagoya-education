@@ -19,6 +19,10 @@ public class QuoteService {
     @Autowired
     private QuoteRepository quoteRepository;
 
+    public QuoteService(QuoteRepository mockRepository) {
+        // TODO Auto-generated constructor stub
+    }
+
     /**
      * 名言一覧取得メソッド
      * 
