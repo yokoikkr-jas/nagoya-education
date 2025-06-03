@@ -1,5 +1,7 @@
 package com.example.demo.quote.service;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeEach;
 // テストメソッドの定義に使う
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -37,6 +39,11 @@ public class QuoteServiceTest {
 
     @InjectMocks
     private QuoteService mockService;
+
+    @BeforeEach
+    void setUp() {
+        mockService = new QuoteService(mockRepository);
+    }
 
 
 
