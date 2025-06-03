@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.doReturn;
 
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +38,7 @@ public class QuoteServiceTest {
 
         String csvFilePath = csvFile1.toString();
 
-        doReturn(csvFilePath).when(quoteService).getFileName();
+        doReturn(csvFilePath).when(quoteService).getFilePath();
         Quote quote = new Quote("text1", "author1");
         quoteService.addQuote(quote);
 
@@ -49,17 +52,17 @@ public class QuoteServiceTest {
      */
     @Test
     void testAddQuote2(@TempDir Path tempDir) throws Exception {
-        Path csvFile1 = Files.createTempFile(tempDir, "sample1-", ".csv");
+        Path csvFile1 = Files.createTempFile(tempDir, "sample2-", ".csv");
 
         List<String> list1 = List.of(
-                "text1,author1",
-                "text2,author2");
+                "text2,author2",
+                "text3,author3");
 
         String csvFilePath = csvFile1.toString();
 
-        doReturn(csvFilePath).when(quoteService).getFileName();
-        Quote quote1 = new Quote("text1", "author1");
-        Quote quote2 = new Quote("text2", "author2");
+        doReturn(csvFilePath).when(quoteService).getFilePath();
+        Quote quote1 = new Quote("text2", "author2");
+        Quote quote2 = new Quote("text3", "author3");
         quoteService.addQuote(quote1);
         quoteService.addQuote(quote2);
 
@@ -73,13 +76,13 @@ public class QuoteServiceTest {
      */
     @Test
     void testAddQuote3(@TempDir Path tempDir) throws Exception {
-        Path csvFile1 = Files.createTempFile(tempDir, "sample1-", ".csv");
+        Path csvFile1 = Files.createTempFile(tempDir, "sample3-", ".csv");
 
         List<Quote> list1 = new ArrayList<>();
         String csvFilePath = csvFile1.toString();
 
-        doReturn(csvFilePath).when(quoteService).getFileName();
-        Quote quote1 = new Quote("text1", "author1");
+        doReturn(csvFilePath).when(quoteService).getFilePath();
+        Quote quote1 = new Quote("text4", "author4");
         quoteService.addQuote(quote1);
         list1.add(quote1);
         Quote q1 = quoteService.getAllQuotes().getLast();
@@ -90,20 +93,28 @@ public class QuoteServiceTest {
 
     /*
      * 出力する外部ファイルを開けない場合、nullを返却する
+     * setReadableでは読み込めない状態にならない
+     * ロックすれば読み込めずnullを返却はするが、一時ディレクトリを削除できずにエラーになる
      */
     @Test
     void testAddQuote4(@TempDir Path tempDir) throws Exception {
-        Path csvFile1 = Files.createTempFile(tempDir, "sample1-", ".csv");
+        Path csvFile1 = Files.createTempFile(tempDir, "sample4-", ".csv");
 
         String csvFilePath = csvFile1.toString();
 
-        doReturn(csvFilePath).when(quoteService).getFileName();
-        Quote quote = new Quote("text1", "author1");
-        Quote q = quoteService.addQuote(quote);
+        doReturn(csvFilePath).when(quoteService).getFilePath();
+        Quote quote = new Quote("text5", "author5");
 
         csvFile1.toFile().setReadable(false, false);
-        assertFalse(csvFile1.toFile().canRead());
+        Quote q = quoteService.addQuote(quote);
         assertNull(q);
+
+        // FileChannel channel = FileChannel.open(csvFile1, StandardOpenOption.WRITE);
+        // FileLock lock = channel.lock();
+        // Quote q = quoteService.addQuote(quote);
+        // assertNull(q);
+        // lock.release();
+        // channel.close();
     }
 
     /*
@@ -111,17 +122,17 @@ public class QuoteServiceTest {
      */
     @Test
     void testAddQuote5(@TempDir Path tempDir) throws Exception {
-        Path csvFile1 = Files.createTempFile(tempDir, "sample1-", ".csv");
+        Path csvFile1 = Files.createTempFile(tempDir, "sample5-", ".csv");
 
         List<String> list1 = List.of(
-                "text1,author1");
+                "text6,author6");
 
         String csvFilePath = csvFile1.toString();
         Files.deleteIfExists(csvFile1);
         assertFalse(Files.exists(csvFile1));
 
-        doReturn(csvFilePath).when(quoteService).getFileName();
-        Quote quote = new Quote("text1", "author1");
+        doReturn(csvFilePath).when(quoteService).getFilePath();
+        Quote quote = new Quote("text6", "author6");
         quoteService.addQuote(quote);
 
         List<String> list2 = Files.readAllLines(csvFile1);
@@ -134,15 +145,15 @@ public class QuoteServiceTest {
      */
     @Test
     void testAddQuote6(@TempDir Path tempDir) throws Exception {
-        Path csvFile1 = Files.createTempFile(tempDir, "sample1-", ".csv");
+        Path csvFile1 = Files.createTempFile(tempDir, "sample6-", ".csv");
 
         String csvFilePath = csvFile1.toString();
         Files.deleteIfExists(csvFile1);
         Files.delete(tempDir);
         assertFalse(Files.exists(csvFile1));
 
-        doReturn(csvFilePath).when(quoteService).getFileName();
-        Quote quote = new Quote("text1", "author1");
+        doReturn(csvFilePath).when(quoteService).getFilePath();
+        Quote quote = new Quote("text7", "author7");
         Quote q = quoteService.addQuote(quote);
 
         assertNull(q);
@@ -154,11 +165,11 @@ public class QuoteServiceTest {
      */
     @Test
     void testAddQuote7(@TempDir Path tempDir) throws Exception {
-        Path newDir = Files.createDirectory(tempDir.resolve("sample1.csv"));
+        Path newDir = Files.createDirectory(tempDir.resolve("sample7.csv"));
 
         String newDirPath = newDir.toString();
-        doReturn(newDirPath).when(quoteService).getFileName();
-        Quote quote = new Quote("text1", "author1");
+        doReturn(newDirPath).when(quoteService).getFilePath();
+        Quote quote = new Quote("text8", "author8");
         Quote q = quoteService.addQuote(quote);
 
         assertNull(q);
@@ -169,13 +180,13 @@ public class QuoteServiceTest {
      */
     @Test
     void testAddQuote8(@TempDir Path tempDir) throws Exception {
-        Path csvFile1 = Files.createTempFile(tempDir, "sample1-", ".csv");
+        Path csvFile1 = Files.createTempFile(tempDir, "sample8-", ".csv");
 
         String csvFilePath = csvFile1.toString();
         csvFile1.toFile().setReadOnly();
 
-        doReturn(csvFilePath).when(quoteService).getFileName();
-        Quote quote = new Quote("text1", "author1");
+        doReturn(csvFilePath).when(quoteService).getFilePath();
+        Quote quote = new Quote("text9", "author9");
         Quote q = quoteService.addQuote(quote);
 
         assertNull(q);

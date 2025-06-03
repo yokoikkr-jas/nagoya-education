@@ -39,10 +39,6 @@ public class QuoteService {
         }
     }
 
-    public String getFileName() {
-        return "src\\main\\java\\com\\example\\demo\\quote\\Quote.csv";
-    }
-
     /**
      * 名言登録メソッド
      * 
@@ -54,20 +50,22 @@ public class QuoteService {
      * @throw Exception 外部ファイルが開かない場合
      *        外部ファイルに書き込みできない場合
      */
+
+    public String getFilePath() {
+        return "src\\main\\java\\com\\example\\demo\\quote\\Quote.csv";
+    }
+
     public Quote addQuote(Quote quote) {
         try {
             Quote savedQuote = quoteRepository.save(quote);
             // 課題2 登録時の外部ファイル書き込み
             String text = savedQuote.getText();
-            // String text = quote.getText();
             String author = savedQuote.getAuthor();
-            // String author = quote.getAuthor();
-            // String fileName = "src\\main\\java\\com\\"
-            // + "example\\demo\\quote\\Quote.csv";
+            String filePath = getFilePath();
             // text：名言オブジェクトに格納されている名言
             // author：名言オブジェクトに格納されている著者
-            // fileName：外部ファイルの相対パス
-            FileWriter file = new FileWriter(getFileName(), true);
+            // filePath：外部ファイルの相対パス
+            FileWriter file = new FileWriter(filePath, true);
             BufferedWriter writer = new BufferedWriter(file);
 
             try {
@@ -77,7 +75,6 @@ public class QuoteService {
                 writer.write(author);
                 writer.newLine();
                 return savedQuote;
-                // return quote;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
