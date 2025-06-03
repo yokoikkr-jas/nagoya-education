@@ -23,6 +23,10 @@ public class QuoteService {
     @Autowired
     private QuoteRepository quoteRepository;
 
+    public QuoteService(QuoteRepository q) {
+        this.quoteRepository = q;
+    }
+
     /**
      * 名言一覧取得メソッド
      * 
@@ -146,7 +150,7 @@ public class QuoteService {
 
             }
 
-            else if (length < minLength) {
+            if (length < minLength) {
 
                 minLength = length;
                 // より小さな値を更新
