@@ -1,7 +1,5 @@
 package com.example.demo.quote.service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeEach;
 // テストメソッドの定義に使う
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,13 +18,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.demo.quote.repository.QuoteRepository;
 
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.Order;
 
 
 
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
+@TestMethodOrder(OrderAnnotation.class)
+
 public class QuoteServiceTest {
     @Autowired
     private QuoteService quoteService;
@@ -40,24 +40,21 @@ public class QuoteServiceTest {
     @InjectMocks
     private QuoteService mockService;
 
-    @BeforeEach
-    void setUp() {
-        mockService = new QuoteService(mockRepository);
-    }
-
 
 
     @Test // DBにQuoteオブジェクトが存在するとき
-    void testCountQuotes() {
-        // メソッドの実行
+    @Order(1)
+    void testCountQuotes(){
+        //メソッドの実行
         int count = quoteService.countQuotes();
-
+    
         // アサーション（期待値との比較）
         assertEquals(3, count);
     }
 
 
     @Test // DBが空のとき
+    @Order(3)
     void testCountQuotesEmpty() {
         // DBに登録された全てのオブジェクトを削除
         quoteRepository.deleteAll();
@@ -68,6 +65,7 @@ public class QuoteServiceTest {
 
 
     @Test // 例外処理（DBからQuoteオブジェクトを取得できなかったとき）
+    @Order(2)
     public void testCountQuotesError() {
         // mockの動作を定義
         when(mockRepository.findAll()).thenThrow(new RuntimeException("DB接続エラー"));
