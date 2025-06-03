@@ -70,7 +70,7 @@ public class QuoteServiceTest {
     /*
      * 前提条件：DBから名言オブジェクトを取得
      * 手順：キーワードqueryと検索対象optionの条件で検索を行う
-     * 入力値：query"地球", option"text"
+     * 入力値：query"テスト", option"text"
      * 期待する結果：null
      * 
      * 内容：検索対象が名言のみの場合、部分一致した名言オブジェクトの
@@ -110,7 +110,7 @@ public class QuoteServiceTest {
     /*
      * 前提条件：DBから名言オブジェクトを取得
      * 手順：キーワードqueryと検索対象optionの条件で検索を行う
-     * 入力値：query"テスト", option"text"
+     * 入力値：query"は", option"text"
      * 期待する結果："地球は青かった", "ガガーリン"
      * "天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"
      * 
