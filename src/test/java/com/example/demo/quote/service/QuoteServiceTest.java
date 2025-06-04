@@ -2,7 +2,6 @@ package com.example.demo.quote.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,26 +24,18 @@ public class QuoteServiceTest {
     @InjectMocks
     private QuoteService quoteService;
 
-    @BeforeEach
-    void setup() {
-
-    }
-
-    @Test // 通常の動きができるか確認
-
-    void testGetQuoteStatistics() {
-
-        // QuoteRepository mockRepo = mock(QuoteRepository.class);
-        // mockオブジェクトの作成
+    @Test // 通常の動きができるか確認 : 正常系
+    void testGetQuoteStatistics() { // mockオブジェクトの作成
 
         List<Quote> mockQuotes = new ArrayList<>();
         Map<String, Object> pridiction = new HashMap<>();
 
+        // mockのリストを作成
         Quote quote1 = new Quote("quote1", "human1");
         Quote quote2 = new Quote("quotee2", "human2");
         Quote quote3 = new Quote("quoteee3", "human3");
-        // mockをリストを作成
 
+        // quoteを追加していく
         mockQuotes.add(quote1);
         mockQuotes.add(quote2);
         mockQuotes.add(quote3);
@@ -54,13 +45,12 @@ public class QuoteServiceTest {
         pridiction.put("shortestQuote", mockQuotes.get(0));
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(mockQuotes);
-        // Mockito に正しい型を渡す
 
-        Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
         // QuoteServiceを呼び出す
+        Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
+        // 結果を出力
         assertEquals(pridiction, statisticsResult);
-        // 実行結果の答え合わせ
     }
 
     @Test // 名言オブジェクトが空のとき
@@ -69,7 +59,10 @@ public class QuoteServiceTest {
         // Repositoryからデータを削除
         quoteRepositoryMock.deleteAll();
 
+        // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
+
+        // 結果を出力 //空のMapを返す
         assertEquals(Collections.emptyMap(), statisticsResult);
     }
 
@@ -83,15 +76,15 @@ public class QuoteServiceTest {
 
         mockQuotes.add(quote1);
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(mockQuotes);
-        // Mockito に正しい型を渡す
 
+        // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
         pridiction.put("averageLength", 12);
         pridiction.put("longestQuote", mockQuotes.get(0));
         pridiction.put("shortestQuote", mockQuotes.get(0));
 
-        // quoteの結果がほしい
+        // 結果を出力
         assertEquals(pridiction, statisticsResult);
     }
 
@@ -105,25 +98,26 @@ public class QuoteServiceTest {
         List<Quote> mockQuotes = new ArrayList<>();
         Map<String, Object> pridiction = new HashMap<>();
 
+        // quoteを追加していく
         mockQuotes.add(quote1);
         mockQuotes.add(quote2);
         mockQuotes.add(quote3);
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(mockQuotes);
-        // Mockito に正しい型を渡す
 
+        // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
         pridiction.put("averageLength", 13);
         pridiction.put("longestQuote", mockQuotes.get(1));
         pridiction.put("shortestQuote", mockQuotes.get(0));
 
-        // それぞれの結果を期待値とする
+        // 結果を出力
         assertEquals(pridiction, statisticsResult);
     }
 
     @Test // 最短文字数・最長文字数が等しいとき
-    void testGetQuoteStatistics_MinEqualsMaxLength() {
+    void testGetQuoteStatistics_WhenMinEqualsMaxLength() {
 
         Quote quote1 = new Quote("夢はでっかく、根はふかく。", "みつを");
         Quote quote3 = new Quote("敵は多ければ多いほど面白い", "勝海舟");
@@ -131,12 +125,13 @@ public class QuoteServiceTest {
         List<Quote> mockQuotes = new ArrayList<>();
         Map<String, Object> pridiction = new HashMap<>();
 
+        // quoteを追加していく
         mockQuotes.add(quote1);
         mockQuotes.add(quote3);
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(mockQuotes);
-        // Mockito に正しい型を渡す
 
+        // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
         pridiction.put("averageLength", 13);
@@ -148,7 +143,7 @@ public class QuoteServiceTest {
     }
 
     @Test // 最短文字数・最長文字数・平均文字数が等しいとき
-    void testGetQuoteStatistics_MinEqualsMaxEqualsAverageLength() {
+    void testGetQuoteStatistics_WhenMinEqualsMaxEqualsAverageLength() {
 
         Quote quote1 = new Quote("夢はでっかく、根はふかく", "みつを");
         Quote quote2 = new Quote("おはようございます。。。", "坂本龍馬");
@@ -157,13 +152,14 @@ public class QuoteServiceTest {
         List<Quote> mockQuotes = new ArrayList<>();
         Map<String, Object> pridiction = new HashMap<>();
 
+        // quoteを追加していく
         mockQuotes.add(quote1);
         mockQuotes.add(quote2);
         mockQuotes.add(quote3);
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(mockQuotes);
-        // Mockito に正しい型を渡す
 
+        // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
         pridiction.put("averageLength", 12);
@@ -173,5 +169,4 @@ public class QuoteServiceTest {
         // それぞれの結果を期待値とする
         assertEquals(pridiction, statisticsResult);
     }
-
 }

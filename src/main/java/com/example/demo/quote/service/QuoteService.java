@@ -147,7 +147,6 @@ public class QuoteService {
 
                 maxBox = quotes;
                 // 最長の名言オブジェクトを格納する
-
             }
 
             if (length < minLength) {
@@ -157,7 +156,6 @@ public class QuoteService {
 
                 minBox = quotes;
                 // 最短の名言オブジェクトを格納する
-
             }
         }
 
