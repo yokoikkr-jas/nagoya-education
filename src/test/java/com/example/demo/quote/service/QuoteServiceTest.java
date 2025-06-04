@@ -28,6 +28,7 @@ public class QuoteServiceTest {
     void testGetQuoteStatistics() { // mockオブジェクトの作成
 
         List<Quote> mockQuotes = new ArrayList<>();
+        // 予想の意味でpridiction
         Map<String, Object> pridiction = new HashMap<>();
 
         // mockのリストを作成
@@ -40,7 +41,10 @@ public class QuoteServiceTest {
         mockQuotes.add(quote2);
         mockQuotes.add(quote3);
 
+        // 平均を求める (quote1 + quotee2 + quoteee3)/3 = 7
         pridiction.put("averageLength", 7);
+
+        // インデックスは0からスタート
         pridiction.put("longestQuote", mockQuotes.get(2));
         pridiction.put("shortestQuote", mockQuotes.get(0));
 
@@ -74,7 +78,9 @@ public class QuoteServiceTest {
         List<Quote> mockQuotes = new ArrayList<>();
         Map<String, Object> pridiction = new HashMap<>();
 
+        // quoteを追加していく
         mockQuotes.add(quote1);
+
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(mockQuotes);
 
         // QuoteServiceを呼び出す
@@ -168,5 +174,53 @@ public class QuoteServiceTest {
 
         // それぞれの結果を期待値とする
         assertEquals(pridiction, statisticsResult);
+    }
+
+    @Test // 一番目の文字列が最大文字数の時、二番目はどんな処理になるのか
+    void testGetQuoteStatistics_WhenMaxLength() {
+
+        Quote quote1 = new Quote("夢はでっかく、根はふかく", "みつを");
+        Quote quote2 = new Quote("日本を今一度、せんたくいたし申候", "坂本龍馬");
+
+        List<Quote> mockQuotes = new ArrayList<>();
+        Map<String, Object> pridiction = new HashMap<>();
+
+        // quoteを追加していく
+        mockQuotes.add(quote2);
+        mockQuotes.add(quote1);
+
+        Mockito.when(quoteRepositoryMock.findAll()).thenReturn(mockQuotes);
+
+        // QuoteServiceを呼び出す
+        Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
+
+        pridiction.put("longestQuote", mockQuotes.get(0));
+
+        // 結果を出力
+        assertEquals(pridiction.get("longestQuote"), statisticsResult.get("longestQuote"));
+    }
+
+    @Test // 一番目の文字列が最小文字数の時、二番目はどんな処理になるのか
+    void testGetQuoteStatistics_WhenMinLength() {
+
+        Quote quote1 = new Quote("夢はでっかく、根はふかく", "みつを");
+        Quote quote2 = new Quote("日本を今一度、せんたくいたし申候", "坂本龍馬");
+
+        List<Quote> mockQuotes = new ArrayList<>();
+        Map<String, Object> pridiction = new HashMap<>();
+
+        // quoteを追加していく
+        mockQuotes.add(quote1);
+        mockQuotes.add(quote2);
+
+        Mockito.when(quoteRepositoryMock.findAll()).thenReturn(mockQuotes);
+
+        // QuoteServiceを呼び出す
+        Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
+
+        pridiction.put("shortestQuote", mockQuotes.get(0));
+
+        // 結果を出力
+        assertEquals(pridiction.get("shortestQuote"), statisticsResult.get("shortestQuote"));
     }
 }
