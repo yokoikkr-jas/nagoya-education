@@ -93,38 +93,38 @@ public class QuoteService {
      */
     public List<Quote> partialMatch(String searchString, String subject) {
         try {
-            List<Quote> b = new ArrayList<>(); // 部分一致する名言オブジェクトの格納先
+            List<Quote> list = new ArrayList<>(); // 部分一致する名言オブジェクトの格納先
             switch (subject) { // optionによる分岐（名言のみ、著者、両方）
                 case "text":
-                    for (Quote q : getAllQuotes()) { // DB上リストのサイズまで繰り返す
-                        if (q.getText().contains(searchString)) { // 部分一致:true
-                            b.add(q);
+                    for (Quote quotes : getAllQuotes()) { // DB上リストのサイズまで繰り返す
+                        if (quotes.getText().contains(searchString)) { // 部分一致:true
+                            list.add(quotes);
                         }
                     }
                     break;
                 case "author":
-                    for (Quote q : getAllQuotes()) {
-                        if (q.getAuthor().contains(searchString)) {
-                            b.add(q);
+                    for (Quote quotes : getAllQuotes()) {
+                        if (quotes.getAuthor().contains(searchString)) {
+                            list.add(quotes);
                         }
                     }
                     break;
                 case "both":
-                    for (Quote q : getAllQuotes()) {
-                        if (q.getText().contains(searchString)) {
-                            b.add(q);
-                        } else if (q.getAuthor().contains(searchString)) {
-                            b.add(q);
+                    for (Quote quotes : getAllQuotes()) {
+                        if (quotes.getText().contains(searchString)) {
+                            list.add(quotes);
+                        } else if (quotes.getAuthor().contains(searchString)) {
+                            list.add(quotes);
                         }
                     }
                     break;
             }
 
-            if (b.isEmpty()) { // 部分一致する文字列のリストbが空の場合、nullを返却
+            if (list.isEmpty()) { // 部分一致する文字列のリストbが空の場合、nullを返却
                 return null;
             }
 
-            return b;
+            return list;
 
         } catch (Exception e) {
             e.printStackTrace(); // スタックトレースを出力する

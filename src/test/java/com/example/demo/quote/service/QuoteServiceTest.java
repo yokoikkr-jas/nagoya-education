@@ -26,55 +26,39 @@ public class QuoteServiceTest {
     private QuoteService quoteService;
 
     /*
-     * 前提条件：なし
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
-     * 入力値：query"地球"、option"text"
-     * 期待する結果：null
-     * 
-     * 内容：DBから名言オブジェクトを取得してない際に
-     * nullで戻るかどうか
-     */
-    @Test
-    void testPartialMatchText_noDb() {
-
-        assertNull(quoteService.partialMatch("地球", "text"));
-
-    }
-
-    /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"地球"、option"text"
      * 期待する結果：text"地球は青かった", author"ガガーリン"
      * 
      * 内容：検索対象が名言のみの場合、部分一致した名言オブジェクトの
-     * リストを作成し、そのリストを取り出せるかどうか
+     * リストを作成し、そのリストを取り出せるかどうか。
      */
     @Test
     void testPartialMatch_main() {
         List<Quote> allList = new ArrayList<>();
-        List<Quote> mainQ = new ArrayList<>();
-        List<Quote> sub = new ArrayList<>();
+        List<Quote> actualList = new ArrayList<>();
+        List<Quote> expectedList = new ArrayList<>();
         allList.add(new Quote("地球は青かった", "ガガーリン"));
         allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
         allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
         allList.add((new Quote("僕の大冒険", "僕")));
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        mainQ.addAll(quoteService.partialMatch("地球", "text"));
-        sub.add(allList.get(0));
-        assertIterableEquals(sub, mainQ);
+        actualList.addAll(quoteService.partialMatch("地球", "text"));
+        expectedList.add(allList.get(0));
+        assertIterableEquals(expectedList, actualList);
 
     }
 
     /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"テスト", option"text"
      * 期待する結果：null
      * 
      * 内容：検索対象が名言のみの場合、部分一致した名言オブジェクトの
-     * リストが空っぽの際にnull
+     * リストが空っぽの際にnull。
      */
     @Test
     void testPartialMatchText_quoteEmpty() {
@@ -91,11 +75,11 @@ public class QuoteServiceTest {
 
     /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"テスト", option"text"
      * 期待する結果：null
      * 
-     * 内容：DBから受け取ったリストが空っぽの場合はnull
+     * 内容：DBから受け取ったリストが空っぽの場合はnull。
      */
     @Test
     void testPartialMatchText_dbEmpty() {
@@ -109,19 +93,19 @@ public class QuoteServiceTest {
 
     /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"は", option"text"
      * 期待する結果："地球は青かった", "ガガーリン"
      * "天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"
      * 
      * 内容：リスト内の要素位置からループの１回目と２回目を確認し、ループの開始地点と
-     * 終了条件に誤りがないか
+     * 終了条件に誤りがないか。
      */
     @Test
     void testPartialMatchText_roop() {
         List<Quote> allList = new ArrayList<>();
-        List<Quote> mainQ = new ArrayList<>();
-        List<Quote> sub = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
+        List<Quote> expectedList = new ArrayList<>();
         allList.add(new Quote("地球は青かった", "ガガーリン"));
         allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
         allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
@@ -129,42 +113,26 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        mainQ.addAll(quoteService.partialMatch("は", "text"));
-        sub.add(allList.get(0));
-        sub.add(allList.get(1));
-        assertIterableEquals(sub, mainQ);
-    }
-
-    /*
-     * 前提条件：なし
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
-     * 入力値：query"大"、option"author"
-     * 期待する結果：null
-     * 
-     * 内容：DBから名言オブジェクトを取得してない際に
-     * nullで戻るかどうか
-     */
-    @Test
-    void testPartialMatchAuthor_noDb() {
-
-        assertNull(quoteService.partialMatch("大", "author"));
-
+        actuaList.addAll(quoteService.partialMatch("は", "text"));
+        expectedList.add(allList.get(0));
+        expectedList.add(allList.get(1));
+        assertIterableEquals(expectedList, actuaList);
     }
 
     /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"大"、option"author"
      * 期待する結果：text"憧れるのをやめましょう", author"大谷翔平"
      * 
      * 内容：検索対象が著者の場合、部分一致した名言オブジェクトの
-     * リストを作成し、そのリストを取り出せるかどうか
+     * リストを作成し、そのリストを取り出せるかどうか。
      */
     @Test
     void testPartialMatchAuthor_main() {
         List<Quote> allList = new ArrayList<>();
-        List<Quote> mainQ = new ArrayList<>();
-        List<Quote> sub = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
+        List<Quote> expectedList = new ArrayList<>();
         allList.add(new Quote("地球は青かった", "ガガーリン"));
         allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
         allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
@@ -172,20 +140,20 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        mainQ.addAll(quoteService.partialMatch("大", "author"));
-        sub.add(allList.get(2));
-        assertIterableEquals(sub, mainQ);
+        actuaList.addAll(quoteService.partialMatch("大", "author"));
+        expectedList.add(allList.get(2));
+        assertIterableEquals(expectedList, actuaList);
 
     }
 
     /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"ノーネイム", option"author"
      * 期待する結果：null
      * 
      * 内容：検索対象が著者の場合、部分一致した名言オブジェクトの
-     * リストが空っぽの際にnull
+     * リストが空っぽの際にnull。
      */
     @Test
     void testPartialMatchAuthor_quoteEmpty() {
@@ -203,11 +171,11 @@ public class QuoteServiceTest {
 
     /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"ノーネイム", option"author"
      * 期待する結果：null
      * 
-     * 内容：DBから受け取ったリストが空っぽの場合はnull
+     * 内容：DBから受け取ったリストが空っぽの場合はnull。
      */
     @Test
     void testPartialMatchAuthor_dbEmpty() {
@@ -221,19 +189,19 @@ public class QuoteServiceTest {
 
     /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"ン", option"author"
      * 期待する結果："地球は青かった", "ガガーリン"
      * "天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"
      * 
      * 内容：ループの１回目と２回目のリスト内の要素位置を確認し、ループの開始地点と
-     * 終了条件に誤りがないか
+     * 終了条件に誤りがないか。
      */
     @Test
     void testPartialMatchAuthor_roop() {
         List<Quote> allList = new ArrayList<>();
-        List<Quote> mainQ = new ArrayList<>();
-        List<Quote> sub = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
+        List<Quote> expectedList = new ArrayList<>();
         allList.add(new Quote("地球は青かった", "ガガーリン"));
         allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
         allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
@@ -241,31 +209,15 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        mainQ.addAll(quoteService.partialMatch("ン", "author"));
-        sub.add(allList.get(0));
-        sub.add(allList.get(1));
-        assertIterableEquals(sub, mainQ);
-    }
-
-    /*
-     * 前提条件：なし
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
-     * 入力値：query"僕"、option"both"
-     * 期待する結果：null
-     * 
-     * 内容：DBから名言オブジェクトを取得してない際に
-     * nullで戻るかどうか
-     */
-    @Test
-    void testPartialMatchBoth_noDb() {
-
-        assertNull(quoteService.partialMatch("僕", "both"));
-
+        actuaList.addAll(quoteService.partialMatch("ン", "author"));
+        expectedList.add(allList.get(0));
+        expectedList.add(allList.get(1));
+        assertIterableEquals(expectedList, actuaList);
     }
 
     /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"僕"、option"both"
      * 期待する結果：text"僕の大冒険", author"僕"
      * 
@@ -276,8 +228,8 @@ public class QuoteServiceTest {
     @Test
     void testPartialMatchBoth_main() {
         List<Quote> allList = new ArrayList<>();
-        List<Quote> mainQ = new ArrayList<>();
-        List<Quote> sub = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
+        List<Quote> expectedList = new ArrayList<>();
         allList.add(new Quote("地球は青かった", "ガガーリン"));
         allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
         allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
@@ -285,20 +237,20 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        mainQ.addAll(quoteService.partialMatch("僕", "both"));
-        sub.add(allList.get(3));
-        assertIterableEquals(sub, mainQ);
+        actuaList.addAll(quoteService.partialMatch("僕", "both"));
+        expectedList.add(allList.get(3));
+        assertIterableEquals(expectedList, actuaList);
 
     }
 
     /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"両方", option"both"
      * 期待する結果：null
      * 
      * 内容：検索対象が両方の場合、部分一致した名言オブジェクトの
-     * リストが空っぽの際にnull
+     * リストが空っぽの際にnull。
      */
     @Test
     void testPartialMatchBoth_quoteEmpty() {
@@ -316,11 +268,11 @@ public class QuoteServiceTest {
 
     /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"両方", option"both"
      * 期待する結果：null
      * 
-     * 内容：DBから受け取ったリストが空っぽの場合はnull
+     * 内容：DBから受け取ったリストが空っぽの場合はnull。
      */
     @Test
     void testPartialMatchBoth_dbEmpty() {
@@ -334,19 +286,19 @@ public class QuoteServiceTest {
 
     /*
      * 前提条件：DBから名言オブジェクトを取得
-     * 手順：キーワードqueryと検索対象optionの条件で検索を行う
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
      * 入力値：query"僕", option"both"
      * 期待する結果："僕のお家", "僕家"
-     * "僕の大冒険", "僕
+     * "僕の大冒険", "僕"
      * 
      * 内容：ループの１個目と２個目のリスト内の要素位置を確認し、ループの開始地点と
-     * 終了条件に誤りがないか
+     * 終了条件に誤りがないか。
      */
     @Test
     void testPartialMatchBoth_roop() {
         List<Quote> allList = new ArrayList<>();
-        List<Quote> mainQ = new ArrayList<>();
-        List<Quote> sub = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
+        List<Quote> expectedList = new ArrayList<>();
         allList.add(new Quote("僕のお家", "僕家"));
         allList.add(new Quote("地球は青かった", "ガガーリン"));
         allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
@@ -355,10 +307,64 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        mainQ.addAll(quoteService.partialMatch("僕", "both"));
-        sub.add(allList.get(0));
-        sub.add(allList.get(4));
-        assertIterableEquals(sub, mainQ);
+        actuaList.addAll(quoteService.partialMatch("僕", "both"));
+        expectedList.add(allList.get(0));
+        expectedList.add(allList.get(4));
+        assertIterableEquals(expectedList, actuaList);
+    }
+
+    /*
+     * 前提条件：DBから名言オブジェクトを取得
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
+     * 入力値：query"我", option"both"
+     * 期待する結果："僕のお家", "我家"
+     * 
+     * 内容：著者分岐の場合にループ１個目の処理が適切に行われるか。
+     */
+    @Test
+    void testPartialMatchBoth_roopAuthorOne() {
+        List<Quote> allList = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
+        List<Quote> expectedList = new ArrayList<>();
+        allList.add(new Quote("僕のお家", "我家"));
+        allList.add(new Quote("地球は青かった", "ガガーリン"));
+        allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+        allList.add((new Quote("僕の大冒険", "僕")));
+
+        Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
+
+        actuaList.addAll(quoteService.partialMatch("我", "both"));
+        expectedList.add(allList.get(0));
+        assertIterableEquals(expectedList, actuaList);
+    }
+
+    /*
+     * 前提条件：DBから名言オブジェクトを取得
+     * 手順：キーワードqueryと検索対象optionの条件で検索を行う。
+     * 入力値：query"ン", option"both"
+     * 期待する結果："地球は青かった", "ガガーリン"
+     * "天才は1%のひらめきと99%の努力でつくられる","トーマス・エジソン"
+     * 
+     * 内容：著者分岐の場合にループ2個目以降の処理が適切に行われるか。
+     */
+    @Test
+    void testPartialMatchBoth_roopAuthorTwo() {
+        List<Quote> allList = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
+        List<Quote> expectedList = new ArrayList<>();
+        allList.add(new Quote("僕のお家", "僕家"));
+        allList.add(new Quote("地球は青かった", "ガガーリン"));
+        allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+        allList.add((new Quote("僕の大冒険", "僕")));
+
+        Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
+
+        actuaList.addAll(quoteService.partialMatch("ン", "both"));
+        expectedList.add(allList.get(1));
+        expectedList.add(allList.get(2));
+        assertIterableEquals(expectedList, actuaList);
     }
 
     /*
@@ -366,12 +372,6 @@ public class QuoteServiceTest {
      */
     @Test
     void testStackTrace() {
-        List<Quote> allList = new ArrayList<>();
-        allList.add(new Quote("僕のお家", "僕家"));
-        allList.add(new Quote("地球は青かった", "ガガーリン"));
-        allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
-        allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
-        allList.add((new Quote("僕の大冒険", "僕")));
         Mockito.when(quoteRepositoryMock.findAll()).thenThrow(new RuntimeException());
         List<Quote> method = quoteService.partialMatch("僕", "text");
         assertNull(method);
