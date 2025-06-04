@@ -26,13 +26,16 @@ public class DataInitializer implements CommandLineRunner {
      * @param args コマンドライン引数
      */
     // テストしやすいメソッドに委譲
+    public String getFilePath() {
+        return "src\\main\\java\\com\\example\\demo\\Quote.csv";// ファイルパスを指定
+    }
 
     @Override
     public void run(String... args) throws Exception {
 
         // 課題1 データ初期化の外部化
         try {
-            String csvFile = "src\\main\\java\\com\\example\\demo\\Quote.csv";// ｃｓｖファイルのパス指定して開く
+            String csvFile = getFilePath();// ファイルパスの指定
             String line;
 
             BufferedReader br = new BufferedReader(new FileReader(csvFile)); // ファイルを読み込む
@@ -47,16 +50,15 @@ public class DataInitializer implements CommandLineRunner {
                     // 読み込めない事象あり、読み込めない場合は下記で対応
                     quoteRepository.save(new Quote(value.getFirst(), value.getLast()));
                 }
-
-                br.close();// ファイルを閉じる
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
-                br.close();
+                br.close();// ファイルを閉じる
             }
         } catch (IOException e) {
             e.printStackTrace();
 
         }
     }
+
 }
