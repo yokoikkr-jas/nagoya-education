@@ -33,22 +33,40 @@ public class QuoteServiceTest {
 
 
 
-    // lengthに文字が入力されずに検索
-    // nullのとき（空はいらない？）
+    // lengthに検索文字数が入力されずに検索
     @Test
-    void testSearchByLengthNull() {
+    void testSearchByLengthNullLess() {
         List<Quote> result = mockquoteService.searchByLength(null, "Less than");
         assertNull(result);
     }
 
 
+    // lengthに検索文字数が入力されずに検索
+    @Test
+    void testSearchByLengthNullEqual() {
+        List<Quote> result = mockquoteService.searchByLength(null, "Equal to");
+        assertNull(result);
+    }
 
-    // lengthの値：境界値 1のときの書き方
+
+    // lengthに検索文字数が入力されずに検索
+    @Test
+    void testSearchByLengthNullGreater() {
+        List<Quote> result = mockquoteService.searchByLength(null, "Greater than");
+        assertNull(result);
+    }
+
+
+
+    // lengthの値：境界値
     @ParameterizedTest
     @ValueSource(strings = {"1", "0", "-1"})
     void testSearchByLengthValue(String length) {
         List<Quote> quotes = new ArrayList<>();
-        quotes.add(new Quote("A"));
+        quotes.add(new Quote("A", "アルファベット"));
+        quotes.add(new Quote("地球は青かった", "ガガーリン"));
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
 
         when(mockquoteRepository.findAll()).thenReturn(quotes);
         List<Quote> result = mockquoteService.searchByLength(length, "Equal to");
@@ -58,7 +76,7 @@ public class QuoteServiceTest {
         if (length.equals("1")) {
             assertFalse(result.isEmpty());
         } else {
-            assertTrue(result, isEmpty());
+            assertTrue(result.isEmpty());
         }
     }
 
@@ -66,147 +84,149 @@ public class QuoteServiceTest {
     // 正常Less than
     @Test // 一致する名言オブジェクトが一つのとき
     void testSearchByLengthLessOne() {
-        List<Quote> list1 = new ArrayList<>();// モックデータを入れるためのデータ
-        List<Quote> list2 = new ArrayList<>();// 10字未満の検索結果を格納するリスト
-        List<Quote> list3 = new ArrayList<>();// 比較用
-        list1.add(new Quote("地球は青かった", "ガガーリン"));
-        list1.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
-        list1.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+        List<Quote> quotes = new ArrayList<>();// モックデータを入れるためのリスト
+        List<Quote> result = new ArrayList<>();// 10字未満の検索結果を格納するリスト
+        List<Quote> value = new ArrayList<>();// 比較用
+        quotes.add(new Quote("地球は青かった", "ガガーリン"));
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
 
         // mockquoteRepository.findAll()が呼ばれたとき、list1を返す
-        Mockito.when(mockquoteRepository.findAll()).thenReturn(list1);
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        list2.addAll(mockquoteService.searchByLength("10", "Less than"));
+        result.addAll(mockquoteService.searchByLength("10", "Less than"));
 
         // list1の最初のQuoteを取得し、list3に追加
-        list3.add(list1.get(0));
-        assertEquals(list3, list2);
+        value.add(quotes.get(0));
+        assertEquals(value, result);
     }
 
 
     @Test // 一致するQuoteオブジェクトが複数のとき
     void testSearchByLengthLessMultiple() {
-        List<Quote> list1 = new ArrayList<>();
-        List<Quote> list2 = new ArrayList<>();
-        List<Quote> list3 = new ArrayList<>();
-        list1.add(new Quote("地球は青かった", "ガガーリン"));
-        list1.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
-        list1.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
-        Mockito.when(mockquoteRepository.findAll()).thenReturn(list1);
+        List<Quote> quotes = new ArrayList<>();
+        List<Quote> result = new ArrayList<>();
+        List<Quote> value = new ArrayList<>();
+        quotes.add(new Quote("地球は青かった", "ガガーリン"));
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        list2.addAll(mockquoteService.searchByLength("15", "Less than"));
-        list3.add(list1.get(0));
-        list3.add(list1.get(2));
-        assertEquals(list3, list2);
+        result.addAll(mockquoteService.searchByLength("15", "Less than"));
+        value.add(quotes.get(0));
+        value.add(quotes.get(2));
+        assertEquals(value, result);
     }
 
 
     @Test // 一致するQuoteオブジェクトがなかったとき→空のリストを返す
     void testSearchByLengthLessEmpty() {
-        List<Quote> list1 = new ArrayList<>();
-        List<Quote> list2 = new ArrayList<>();
+        List<Quote> quotes = new ArrayList<>();
+        List<Quote> result = new ArrayList<>();
 
-        list1.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
-        list1.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
-        Mockito.when(mockquoteRepository.findAll()).thenReturn(list1);
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        list2.addAll(mockquoteService.searchByLength("5", "Less than"));
-        assertEquals(Collections.emptyList(), list2);
-    } 
+        result.addAll(mockquoteService.searchByLength("5", "Less than"));
+        assertEquals(Collections.emptyList(), result);
+    }
 
 
 
-    @Test// 一致する名言オブジェクトが一つのとき
+    // 正常Equal to
+    @Test // 一致する名言オブジェクトが一つのとき
     void testSearchByLengthEqualOne() {
-        List<Quote> list1 = new ArrayList<>();
-        List<Quote> list2 = new ArrayList<>();
-        List<Quote> list3 = new ArrayList<>();
-        list1.add(new Quote("地球は青かった", "ガガーリン"));
-        list1.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
-        list1.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
-        Mockito.when(mockquoteRepository.findAll()).thenReturn(list1);
+        List<Quote> quotes = new ArrayList<>();
+        List<Quote> result = new ArrayList<>();
+        List<Quote> value = new ArrayList<>();
+        quotes.add(new Quote("地球は青かった", "ガガーリン"));
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        list2.addAll(mockquoteService.searchByLength("11", "Equal to"));
-        list3.add(list1.get(2));
-        assertEquals(list3, list2);
+        result.addAll(mockquoteService.searchByLength("11", "Equal to"));
+        value.add(quotes.get(2));
+        assertEquals(value, result);
     }
 
 
     @Test // 一致するQuoteオブジェクトが複数のとき
     void testSearchByLengthEqualMultiple() {
-        List<Quote> list1 = new ArrayList<>();
-        List<Quote> list2 = new ArrayList<>();
-        List<Quote> list3 = new ArrayList<>();
-        list1.add(new Quote("地球は青い", "ガガーリン"));
-        list1.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
-        list1.add(new Quote("憧れをもつ", "大谷翔平"));
-        Mockito.when(mockquoteRepository.findAll()).thenReturn(list1);
+        List<Quote> quotes = new ArrayList<>();
+        List<Quote> result = new ArrayList<>();
+        List<Quote> value = new ArrayList<>();
+        quotes.add(new Quote("地球は青い", "ガガーリン"));
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れをもつ", "大谷翔平"));
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        list2.addAll(mockquoteService.searchByLength("5", "Equal to"));
-        list3.add(list1.get(0));
-        list3.add(list1.get(2));
-        assertEquals(list3, list2);
+        result.addAll(mockquoteService.searchByLength("5", "Equal to"));
+        value.add(quotes.get(0));
+        value.add(quotes.get(2));
+        assertEquals(value, result);
     }
 
 
     @Test // 一致するQuoteオブジェクトがなかったとき→空のリストを返す
     void testSearchByLengthEqualEmpty() {
-        List<Quote> list1 = new ArrayList<>();
-        List<Quote> list2 = new ArrayList<>();
+        List<Quote> quotes = new ArrayList<>();
+        List<Quote> result = new ArrayList<>();
 
-        list1.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
-        list1.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
-        Mockito.when(mockquoteRepository.findAll()).thenReturn(list1);
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        list2.addAll(mockquoteService.searchByLength("3", "Equal to"));
-        assertEquals(Collections.emptyList(), list2);
-    } 
+        result.addAll(mockquoteService.searchByLength("3", "Equal to"));
+        assertEquals(Collections.emptyList(), result);
+    }
 
 
 
-    @Test// 一致する名言オブジェクトが一つのとき
+    // 正常Greater than
+    @Test // 一致する名言オブジェクトが一つのとき
     void testSearchByLengthGreaterOne() {
-        List<Quote> list1 = new ArrayList<>();
-        List<Quote> list2 = new ArrayList<>();
-        List<Quote> list3 = new ArrayList<>();
-        list1.add(new Quote("地球は青かった", "ガガーリン"));
-        list1.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
-        list1.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
-        Mockito.when(mockquoteRepository.findAll()).thenReturn(list1);
+        List<Quote> quotes = new ArrayList<>();
+        List<Quote> result = new ArrayList<>();
+        List<Quote> value = new ArrayList<>();
+        quotes.add(new Quote("地球は青かった", "ガガーリン"));
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        list2.addAll(mockquoteService.searchByLength("15", "Greater than"));
-        list3.add(list1.get(1));
+        result.addAll(mockquoteService.searchByLength("15", "Greater than"));
+        value.add(quotes.get(1));
     }
 
 
     @Test // 一致する名言オブジェクトが複数のとき
     void testSearchByLengthGreaterMultiple() {
-        List<Quote> list1 = new ArrayList<>();
-        List<Quote> list2 = new ArrayList<>();
-        List<Quote> list3 = new ArrayList<>();
-        list1.add(new Quote("地球は青かった", "ガガーリン"));
-        list1.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
-        list1.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
-        Mockito.when(mockquoteRepository.findAll()).thenReturn(list1);
+        List<Quote> quotes = new ArrayList<>();
+        List<Quote> result = new ArrayList<>();
+        List<Quote> value = new ArrayList<>();
+        quotes.add(new Quote("地球は青かった", "ガガーリン"));
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        list2.addAll(mockquoteService.searchByLength("10", "Greater than"));
-        list3.add(list1.get(1));
-        list3.add(list1.get(2));
-        assertEquals(list3, list2);
+        result.addAll(mockquoteService.searchByLength("10", "Greater than"));
+        value.add(quotes.get(1));
+        value.add(quotes.get(2));
+        assertEquals(value, result);
     }
 
 
     @Test // 一致するQuoteオブジェクトがなかったとき→空のリストを返す
     void testSearchByLengthGreaterEmpty() {
-        List<Quote> list1 = new ArrayList<>();
-        List<Quote> list2 = new ArrayList<>();
-        list1.add(new Quote("地球は青かった", "ガガーリン"));
-        list1.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
-        list1.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
-        Mockito.when(mockquoteRepository.findAll()).thenReturn(list1);
+        List<Quote> quotes = new ArrayList<>();
+        List<Quote> result = new ArrayList<>();
+        quotes.add(new Quote("地球は青かった", "ガガーリン"));
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        list2.addAll(mockquoteService.searchByLength("30", "Greater than"));
-        assertEquals(Collections.emptyList(), list2);
+        result.addAll(mockquoteService.searchByLength("30", "Greater than"));
+        assertEquals(Collections.emptyList(), result);
     }
 
 
