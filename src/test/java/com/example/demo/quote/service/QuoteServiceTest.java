@@ -85,6 +85,7 @@ public class QuoteServiceTest {
 
 
     // 0文字より大きい名言を検索
+    @Test
     void testSearchByLengthGreaterZero() {
         List<Quote> quotes = new ArrayList<>();
         List<Quote> result = new ArrayList<>();
@@ -97,7 +98,7 @@ public class QuoteServiceTest {
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
         result = mockquoteService.searchByLength("1", "Equal to");
         value.add(quotes.get(0));
-        assertTrue(result.isEmpty());
+        assertEquals(value, result);
     }
 
 
