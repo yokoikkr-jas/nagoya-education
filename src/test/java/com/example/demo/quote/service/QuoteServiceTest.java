@@ -16,9 +16,6 @@ import org.mockito.InjectMocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
 import java.util.Collections;
 
 
@@ -32,8 +29,7 @@ public class QuoteServiceTest {
     private QuoteService mockquoteService;
 
 
-
-    // lengthに検索文字数が入力されずに検索
+    // 検索文字数が入力されずに検索(Less thanのとき)
     @Test
     void testSearchByLengthNullLess() {
         List<Quote> result = mockquoteService.searchByLength(null, "Less than");
@@ -41,7 +37,7 @@ public class QuoteServiceTest {
     }
 
 
-    // lengthに検索文字数が入力されずに検索
+    // 検索文字数が入力されずに検索(Equal toのとき)
     @Test
     void testSearchByLengthNullEqual() {
         List<Quote> result = mockquoteService.searchByLength(null, "Equal to");
@@ -49,7 +45,7 @@ public class QuoteServiceTest {
     }
 
 
-    // lengthに検索文字数が入力されずに検索
+    // 検索文字数が入力されずに検索(Greater thanのとき)
     @Test
     void testSearchByLengthNullGreater() {
         List<Quote> result = mockquoteService.searchByLength(null, "Greater than");
@@ -58,27 +54,52 @@ public class QuoteServiceTest {
 
 
 
-    // lengthの値：境界値
-    @ParameterizedTest
-    @ValueSource(strings = {"1", "0", "-1"})
-    void testSearchByLengthValue(String length) {
+    // 0文字未満の名言を検索
+    @Test
+    void testSearchByLengthLessZero() {
         List<Quote> quotes = new ArrayList<>();
         quotes.add(new Quote("A", "アルファベット"));
         quotes.add(new Quote("地球は青かった", "ガガーリン"));
         quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
 
-        when(mockquoteRepository.findAll()).thenReturn(quotes);
-        List<Quote> result = mockquoteService.searchByLength(length, "Equal to");
-        // searchByLengthはnullではなく空のリストやデータを返す
-        assertNotNull(result);
-
-        if (length.equals("1")) {
-            assertFalse(result.isEmpty());
-        } else {
-            assertTrue(result.isEmpty());
-        }
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
+        List<Quote> result = mockquoteService.searchByLength("-1", "Equal to");
+        assertTrue(result.isEmpty());
     }
+
+
+    // 0文字の名言を検索
+    @Test
+    void testSearchByLengthEqualZero() {
+        List<Quote> quotes = new ArrayList<>();
+        quotes.add(new Quote("A", "アルファベット"));
+        quotes.add(new Quote("地球は青かった", "ガガーリン"));
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
+        List<Quote> result = mockquoteService.searchByLength("0", "Equal to");
+        assertTrue(result.isEmpty());
+    }
+
+
+    // 0文字より大きい名言を検索
+    void testSearchByLengthGreaterZero() {
+        List<Quote> quotes = new ArrayList<>();
+        List<Quote> result = new ArrayList<>();
+        List<Quote> value = new ArrayList<>();
+        quotes.add(new Quote("A", "アルファベット"));
+        quotes.add(new Quote("地球は青かった", "ガガーリン"));
+        quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
+        quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
+
+        Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
+        result = mockquoteService.searchByLength("1", "Equal to");
+        value.add(quotes.get(0));
+        assertTrue(result.isEmpty());
+    }
+
 
 
     // 正常Less than
@@ -86,17 +107,17 @@ public class QuoteServiceTest {
     void testSearchByLengthLessOne() {
         List<Quote> quotes = new ArrayList<>();// モックデータを入れるためのリスト
         List<Quote> result = new ArrayList<>();// 10字未満の検索結果を格納するリスト
-        List<Quote> value = new ArrayList<>();// 比較用
+        List<Quote> value = new ArrayList<>();// 期待値を格納するリスト
         quotes.add(new Quote("地球は青かった", "ガガーリン"));
         quotes.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
 
-        // mockquoteRepository.findAll()が呼ばれたとき、list1を返す
+        // mockquoteRepository.findAll()が呼ばれたとき、quotesを返す
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
         result.addAll(mockquoteService.searchByLength("10", "Less than"));
 
-        // list1の最初のQuoteを取得し、list3に追加
+        // quotesから条件に一致するQuoteを取得し、valueに追加
         value.add(quotes.get(0));
         assertEquals(value, result);
     }
@@ -196,6 +217,7 @@ public class QuoteServiceTest {
 
         result.addAll(mockquoteService.searchByLength("15", "Greater than"));
         value.add(quotes.get(1));
+        assertEquals(value, result);
     }
 
 
