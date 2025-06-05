@@ -29,7 +29,7 @@ public class QuoteServiceTest {
 
         List<Quote> mockQuotes = new ArrayList<>();
         // 予想の意味でpridiction
-        Map<String, Object> pridiction = new HashMap<>();
+        Map<String, Object> prediction = new HashMap<>();
 
         // mockのリストを作成
         Quote quote1 = new Quote("quote1", "human1");
@@ -42,11 +42,11 @@ public class QuoteServiceTest {
         mockQuotes.add(quote3);
 
         // 平均を求める (quote1 + quotee2 + quoteee3)/3 = 7
-        pridiction.put("averageLength", 7);
+        prediction.put("averageLength", 7);
 
         // インデックスは0からスタート
-        pridiction.put("longestQuote", mockQuotes.get(2));
-        pridiction.put("shortestQuote", mockQuotes.get(0));
+        prediction.put("longestQuote", mockQuotes.get(2));
+        prediction.put("shortestQuote", mockQuotes.get(0));
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(mockQuotes);
 
@@ -54,7 +54,7 @@ public class QuoteServiceTest {
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
         // 結果を出力
-        assertEquals(pridiction, statisticsResult);
+        assertEquals(prediction, statisticsResult);
     }
 
     @Test // 名言オブジェクトが空のとき
@@ -76,7 +76,7 @@ public class QuoteServiceTest {
         Quote quote1 = new Quote("夢はでっかく、根はふかく", "みつを");
 
         List<Quote> mockQuotes = new ArrayList<>();
-        Map<String, Object> pridiction = new HashMap<>();
+        Map<String, Object> prediction = new HashMap<>();
 
         // quoteを追加していく
         mockQuotes.add(quote1);
@@ -86,12 +86,12 @@ public class QuoteServiceTest {
         // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
-        pridiction.put("averageLength", 12);
-        pridiction.put("longestQuote", mockQuotes.get(0));
-        pridiction.put("shortestQuote", mockQuotes.get(0));
+        prediction.put("averageLength", 12);
+        prediction.put("longestQuote", mockQuotes.get(0));
+        prediction.put("shortestQuote", mockQuotes.get(0));
 
         // 結果を出力
-        assertEquals(pridiction, statisticsResult);
+        assertEquals(prediction, statisticsResult);
     }
 
     @Test // 名言オブジェクトが二つ以上のとき
@@ -102,7 +102,7 @@ public class QuoteServiceTest {
         Quote quote3 = new Quote("敵は多ければ多いほど面白い", "勝海舟");
 
         List<Quote> mockQuotes = new ArrayList<>();
-        Map<String, Object> pridiction = new HashMap<>();
+        Map<String, Object> prediction = new HashMap<>();
 
         // quoteを追加していく
         mockQuotes.add(quote1);
@@ -114,12 +114,12 @@ public class QuoteServiceTest {
         // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
-        pridiction.put("averageLength", 13);
-        pridiction.put("longestQuote", mockQuotes.get(1));
-        pridiction.put("shortestQuote", mockQuotes.get(0));
+        prediction.put("averageLength", 13);
+        prediction.put("longestQuote", mockQuotes.get(1));
+        prediction.put("shortestQuote", mockQuotes.get(0));
 
         // 結果を出力
-        assertEquals(pridiction, statisticsResult);
+        assertEquals(prediction, statisticsResult);
     }
 
     @Test // 最短文字数・最長文字数が等しいとき
@@ -129,7 +129,7 @@ public class QuoteServiceTest {
         Quote quote3 = new Quote("敵は多ければ多いほど面白い", "勝海舟");
 
         List<Quote> mockQuotes = new ArrayList<>();
-        Map<String, Object> pridiction = new HashMap<>();
+        Map<String, Object> prediction = new HashMap<>();
 
         // quoteを追加していく
         mockQuotes.add(quote1);
@@ -140,12 +140,12 @@ public class QuoteServiceTest {
         // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
-        pridiction.put("averageLength", 13);
-        pridiction.put("longestQuote", mockQuotes.get(0));
-        pridiction.put("shortestQuote", mockQuotes.get(0));
+        prediction.put("averageLength", 13);
+        prediction.put("longestQuote", mockQuotes.get(0));
+        prediction.put("shortestQuote", mockQuotes.get(0));
 
         // それぞれの結果を期待値とする
-        assertEquals(pridiction, statisticsResult);
+        assertEquals(prediction, statisticsResult);
     }
 
     @Test // 最短文字数・最長文字数・平均文字数が等しいとき
@@ -156,7 +156,7 @@ public class QuoteServiceTest {
         Quote quote3 = new Quote("敵は多ければ多いほど面白", "勝海舟");
 
         List<Quote> mockQuotes = new ArrayList<>();
-        Map<String, Object> pridiction = new HashMap<>();
+        Map<String, Object> prediction = new HashMap<>();
 
         // quoteを追加していく
         mockQuotes.add(quote1);
@@ -168,12 +168,12 @@ public class QuoteServiceTest {
         // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
-        pridiction.put("averageLength", 12);
-        pridiction.put("longestQuote", mockQuotes.get(0));
-        pridiction.put("shortestQuote", mockQuotes.get(0));
+        prediction.put("averageLength", 12);
+        prediction.put("longestQuote", mockQuotes.get(0));
+        prediction.put("shortestQuote", mockQuotes.get(0));
 
         // それぞれの結果を期待値とする
-        assertEquals(pridiction, statisticsResult);
+        assertEquals(prediction, statisticsResult);
     }
 
     @Test // 一番目の文字列が最大文字数の時、二番目はどんな処理になるのか
@@ -183,7 +183,7 @@ public class QuoteServiceTest {
         Quote quote2 = new Quote("日本を今一度、せんたくいたし申候", "坂本龍馬");
 
         List<Quote> mockQuotes = new ArrayList<>();
-        Map<String, Object> pridiction = new HashMap<>();
+        Map<String, Object> prediction = new HashMap<>();
 
         // quoteを追加していく
         mockQuotes.add(quote2);
@@ -194,10 +194,10 @@ public class QuoteServiceTest {
         // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
-        pridiction.put("longestQuote", mockQuotes.get(0));
+        prediction.put("longestQuote", mockQuotes.get(0));
 
         // 結果を出力
-        assertEquals(pridiction.get("longestQuote"), statisticsResult.get("longestQuote"));
+        assertEquals(prediction.get("longestQuote"), statisticsResult.get("longestQuote"));
     }
 
     @Test // 一番目の文字列が最小文字数の時、二番目はどんな処理になるのか
@@ -207,7 +207,7 @@ public class QuoteServiceTest {
         Quote quote2 = new Quote("日本を今一度、せんたくいたし申候", "坂本龍馬");
 
         List<Quote> mockQuotes = new ArrayList<>();
-        Map<String, Object> pridiction = new HashMap<>();
+        Map<String, Object> prediction = new HashMap<>();
 
         // quoteを追加していく
         mockQuotes.add(quote1);
@@ -218,9 +218,9 @@ public class QuoteServiceTest {
         // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
-        pridiction.put("shortestQuote", mockQuotes.get(0));
+        prediction.put("shortestQuote", mockQuotes.get(0));
 
         // 結果を出力
-        assertEquals(pridiction.get("shortestQuote"), statisticsResult.get("shortestQuote"));
+        assertEquals(prediction.get("shortestQuote"), statisticsResult.get("shortestQuote"));
     }
 }
