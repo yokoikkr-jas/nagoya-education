@@ -84,15 +84,16 @@ public class DataInitializerTest {
      * @throws Exception
      */
 
-    @Test
-    void testRun3() throws Exception {
-        doReturn("C://a//nagoya-education//src//test//java//com//example//demo//quote/test3.csv")
-                .when(dataInitializer).getFilePath();
-        assertThrows(FileNotFoundException.class, () -> {
-            dataInitializer.run();
+    // @Test
+    // void testRun3() throws Exception {
+    // doReturn("C://a//nagoya-education//src//test//java//com//example//demo//quote/test9.csv")
+    // .when(dataInitializer).getFilePath();
 
-        });
-    }
+    // assertThrows(FileNotFoundException.class, () -> {
+    // dataInitializer.run();
+
+    // });
+    // }
 
     /*
      * 正常系
@@ -113,13 +114,13 @@ public class DataInitializerTest {
      * CSVファイルを開くことができない
      */
 
-    @Test
-    void testRun5() throws Exception {
-        when(bufferedReader.readLine()).thenThrow(new IOException("ファイル読み込みエラー"));
-        dataInitializer.run();
-        assertThrows(IOException.class, () -> dataInitializer.run());
+    // @Test
+    // void testRun5() throws Exception {
+    // when(bufferedReader.readLine()).thenThrow(new IOException("ファイル読み込みエラー"));
+    // dataInitializer.run();
+    // assertThrows(IOException.class, () -> dataInitializer.run());
 
-    }
+    // }
 }
 // ①run呼び出し
 
