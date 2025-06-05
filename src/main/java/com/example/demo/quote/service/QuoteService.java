@@ -40,6 +40,18 @@ public class QuoteService {
     }
 
     /**
+     * 外部ファイルパス取得メソッド
+     * 
+     * @author 鈴木
+     * @since 2025/06/03
+     * 
+     * @return 外部ファイルの相対パス
+     */
+    public String getFilePath() {
+        return "src\\main\\java\\com\\example\\demo\\quote\\Quote.csv";
+    }
+
+    /**
      * 名言登録メソッド
      * 
      * @author 鈴木
@@ -50,10 +62,6 @@ public class QuoteService {
      * @throw Exception 外部ファイルが開かない場合
      *        外部ファイルに書き込みできない場合
      */
-
-    public String getFilePath() {
-        return "src\\main\\java\\com\\example\\demo\\quote\\Quote.csv";
-    }
 
     public Quote addQuote(Quote quote) {
         try {
