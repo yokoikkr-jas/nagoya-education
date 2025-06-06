@@ -32,7 +32,7 @@ public class QuoteServiceTest {
     // 検索文字数が入力されずに検索(Less thanのとき)
     @Test
     void testSearchByLengthNullLess() {
-        List<Quote> result = mockquoteService.searchByLength(null, "Less than");
+        List<Quote> result = mockquoteService.searchByLength(null, "less");
         assertNull(result);
     }
 
@@ -40,7 +40,7 @@ public class QuoteServiceTest {
     // 検索文字数が入力されずに検索(Equal toのとき)
     @Test
     void testSearchByLengthNullEqual() {
-        List<Quote> result = mockquoteService.searchByLength(null, "Equal to");
+        List<Quote> result = mockquoteService.searchByLength(null, "equal");
         assertNull(result);
     }
 
@@ -48,7 +48,7 @@ public class QuoteServiceTest {
     // 検索文字数が入力されずに検索(Greater thanのとき)
     @Test
     void testSearchByLengthNullGreater() {
-        List<Quote> result = mockquoteService.searchByLength(null, "Greater than");
+        List<Quote> result = mockquoteService.searchByLength(null, "greater");
         assertNull(result);
     }
 
@@ -64,7 +64,7 @@ public class QuoteServiceTest {
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
 
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
-        List<Quote> result = mockquoteService.searchByLength("-1", "Equal to");
+        List<Quote> result = mockquoteService.searchByLength("-1", "equal");
         assertTrue(result.isEmpty());
     }
 
@@ -79,7 +79,7 @@ public class QuoteServiceTest {
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
 
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
-        List<Quote> result = mockquoteService.searchByLength("0", "Equal to");
+        List<Quote> result = mockquoteService.searchByLength("0", "equal");
         assertTrue(result.isEmpty());
     }
 
@@ -96,7 +96,7 @@ public class QuoteServiceTest {
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
 
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
-        result = mockquoteService.searchByLength("1", "Equal to");
+        result = mockquoteService.searchByLength("1", "equal");
         value.add(quotes.get(0));
         assertEquals(value, result);
     }
@@ -116,7 +116,7 @@ public class QuoteServiceTest {
         // mockquoteRepository.findAll()が呼ばれたとき、quotesを返す
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        result.addAll(mockquoteService.searchByLength("10", "Less than"));
+        result.addAll(mockquoteService.searchByLength("10", "less"));
 
         // quotesから条件に一致するQuoteを取得し、valueに追加
         value.add(quotes.get(0));
@@ -134,7 +134,7 @@ public class QuoteServiceTest {
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        result.addAll(mockquoteService.searchByLength("15", "Less than"));
+        result.addAll(mockquoteService.searchByLength("15", "less"));
         value.add(quotes.get(0));
         value.add(quotes.get(2));
         assertEquals(value, result);
@@ -150,7 +150,7 @@ public class QuoteServiceTest {
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        result.addAll(mockquoteService.searchByLength("5", "Less than"));
+        result.addAll(mockquoteService.searchByLength("5", "less"));
         assertEquals(Collections.emptyList(), result);
     }
 
@@ -167,7 +167,7 @@ public class QuoteServiceTest {
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        result.addAll(mockquoteService.searchByLength("11", "Equal to"));
+        result.addAll(mockquoteService.searchByLength("11", "equal"));
         value.add(quotes.get(2));
         assertEquals(value, result);
     }
@@ -183,7 +183,7 @@ public class QuoteServiceTest {
         quotes.add(new Quote("憧れをもつ", "大谷翔平"));
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        result.addAll(mockquoteService.searchByLength("5", "Equal to"));
+        result.addAll(mockquoteService.searchByLength("5", "equal"));
         value.add(quotes.get(0));
         value.add(quotes.get(2));
         assertEquals(value, result);
@@ -199,7 +199,7 @@ public class QuoteServiceTest {
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        result.addAll(mockquoteService.searchByLength("3", "Equal to"));
+        result.addAll(mockquoteService.searchByLength("3", "equal"));
         assertEquals(Collections.emptyList(), result);
     }
 
@@ -216,7 +216,7 @@ public class QuoteServiceTest {
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        result.addAll(mockquoteService.searchByLength("15", "Greater than"));
+        result.addAll(mockquoteService.searchByLength("15", "greater"));
         value.add(quotes.get(1));
         assertEquals(value, result);
     }
@@ -232,7 +232,7 @@ public class QuoteServiceTest {
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        result.addAll(mockquoteService.searchByLength("10", "Greater than"));
+        result.addAll(mockquoteService.searchByLength("10", "greater"));
         value.add(quotes.get(1));
         value.add(quotes.get(2));
         assertEquals(value, result);
@@ -248,7 +248,7 @@ public class QuoteServiceTest {
         quotes.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
         Mockito.when(mockquoteRepository.findAll()).thenReturn(quotes);
 
-        result.addAll(mockquoteService.searchByLength("30", "Greater than"));
+        result.addAll(mockquoteService.searchByLength("30", "greater"));
         assertEquals(Collections.emptyList(), result);
     }
 
@@ -259,7 +259,7 @@ public class QuoteServiceTest {
     @Test
     void testSearchByLengthError() {
         when(mockquoteRepository.findAll()).thenThrow(new RuntimeException("DB接続エラー"));
-        List<Quote> result = mockquoteService.searchByLength("10", "Less than");
+        List<Quote> result = mockquoteService.searchByLength("10", "less");
         assertNull(result);
     }
 
