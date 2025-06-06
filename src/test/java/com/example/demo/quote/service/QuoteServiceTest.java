@@ -233,7 +233,7 @@ public class QuoteServiceTest {
     }
 
     // 例外発生
-    // nullがくるかどうか
+    // catchの中のnullがくるかどうか
     @Test
     void testGetQuoteStatistics_WhenAssertException() {
 
