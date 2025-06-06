@@ -162,6 +162,7 @@ public class QuoteService {
             int averageLength = totalLength / allQuotes.size();
             // 名言文字数の平均を調べる処理
 
+            // Maxboxとmaxlengthをひもずけたobject maxboxのところ
             statistics.put("averageLength", averageLength);
             statistics.put("longestQuote", maxBox);
             statistics.put("shortestQuote", minBox);
