@@ -1,6 +1,8 @@
 package com.example.demo.quote.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -194,10 +196,13 @@ public class QuoteServiceTest {
         // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
+        prediction.put("averageLength", 14);
         prediction.put("longestQuote", mockQuotes.get(0));
+        prediction.put("shortestQuote", mockQuotes.get(1));
 
         // 結果を出力
         assertEquals(prediction.get("longestQuote"), statisticsResult.get("longestQuote"));
+        assertEquals(prediction.get("shortestQuote"), statisticsResult.get("shortestQuote"));
     }
 
     @Test // 一番目の文字列が最小文字数の時、二番目はどんな処理になるのか
@@ -218,9 +223,27 @@ public class QuoteServiceTest {
         // QuoteServiceを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
 
+        prediction.put("averageLength", 14);
         prediction.put("shortestQuote", mockQuotes.get(0));
+        prediction.put("longestQuote", mockQuotes.get(1));
 
         // 結果を出力
         assertEquals(prediction.get("shortestQuote"), statisticsResult.get("shortestQuote"));
+        assertEquals(prediction.get("longestQuote"), statisticsResult.get("longestQuote"));
+    }
+
+    // 例外発生
+    // nullがくるかどうか
+    @Test
+    void testGetQuoteStatistics_WhenAssertException() {
+
+        // catchの処理
+        Mockito.when(quoteRepositoryMock.findAll()).thenThrow();
+
+        // QuoteServiceを呼び出す
+        Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
+
+        // 結果を出力
+        assertNull(statisticsResult);
     }
 }
