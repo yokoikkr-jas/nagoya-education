@@ -48,7 +48,7 @@ public class QuoteService {
      * @return 外部ファイルの相対パス
      */
     public String getFilePath() {
-        return "src\\main\\java\\com\\example\\demo\\quote\\Quote.csv";
+        return "src\\main\\java\\com\\example\\demo\\Quote.csv";
     }
 
     /**
@@ -62,17 +62,19 @@ public class QuoteService {
      * @throw Exception 外部ファイルが開かない場合
      *        外部ファイルに書き込みできない場合
      */
-
     public Quote addQuote(Quote quote) {
         try {
             Quote savedQuote = quoteRepository.save(quote);
             // 課題2 登録時の外部ファイル書き込み
+
             String text = savedQuote.getText();
             String author = savedQuote.getAuthor();
             String filePath = getFilePath();
+
             // text：名言オブジェクトに格納されている名言
             // author：名言オブジェクトに格納されている著者
             // filePath：外部ファイルの相対パス
+
             FileWriter file = new FileWriter(filePath, true);
             BufferedWriter writer = new BufferedWriter(file);
 
@@ -94,6 +96,7 @@ public class QuoteService {
             e.printStackTrace();
             return null;
         }
+
     }
 
     /**
