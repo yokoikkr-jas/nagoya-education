@@ -64,6 +64,8 @@ public class QuoteController {
     public Map<String, Object> getQuoteStatistics() {
         // 課題5 名言の統計情報
 
+        // Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
+        // QuoteServiceクラスの対象メソッドを呼び出す
         Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
         // QuoteServiceクラスの対象メソッドを呼び出す
 

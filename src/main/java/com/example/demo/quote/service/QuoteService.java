@@ -3,11 +3,8 @@ package com.example.demo.quote.service;
 import com.example.demo.quote.model.Quote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.quote.repository.QuoteRepository;
-
-import io.contek.zeus.exchange.GetAllQuotesRequest;
 
 import java.util.*;
 
@@ -162,16 +159,16 @@ public class QuoteService {
             int averageLength = totalLength / allQuotes.size();
             // 名言文字数の平均を調べる処理
 
-            // Maxboxとmaxlengthをひもずけたobject maxboxのところ
             statistics.put("averageLength", averageLength);
+            // Maxboxとmaxlengthをひもずけたobject maxboxのところ
             statistics.put("longestQuote", maxBox);
             statistics.put("shortestQuote", minBox);
 
             return statistics;
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-
     }
 }
