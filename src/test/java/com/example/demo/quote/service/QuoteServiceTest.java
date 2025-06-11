@@ -45,6 +45,11 @@ public class QuoteServiceTest {
     @Test // DBにQuoteオブジェクトが存在するとき
     @Order(1)
     void testCountQuotes() {
+        autowiredQuoteRepository.deleteAll();
+        // テスト用のQuoteオブジェクトを3つ登録
+        autowiredQuoteRepository.save(new Quote("text1", "author1"));
+        autowiredQuoteRepository.save(new Quote("text2", "author2"));
+        autowiredQuoteRepository.save(new Quote("text3", "author3"));
         // メソッドの実行
         int count = autowiredQuoteService.countQuotes();
 
