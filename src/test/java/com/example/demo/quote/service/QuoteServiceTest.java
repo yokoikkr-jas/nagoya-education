@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +27,9 @@ public class QuoteServiceTest {
 
     @Mock
     private QuoteRepository quoteRepositoryMock;
+
+    @InjectMocks
+    private QuoteService injectQuoteService;
 
     @MockitoSpyBean
     private QuoteService quoteService;
@@ -223,7 +227,7 @@ public class QuoteServiceTest {
         allList.add((new Quote("僕の大冒険", "僕")));
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        actualList.addAll(quoteService.partialMatch("地球", "text"));
+        actualList.addAll(injectQuoteService.partialMatch("地球", "text"));
         expectedList.add(allList.get(0));
         assertIterableEquals(expectedList, actualList);
 
@@ -245,7 +249,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertNull(quoteService.partialMatch("テスト", "text"));
+        assertNull(injectQuoteService.partialMatch("テスト", "text"));
     }
 
     /*
@@ -260,7 +264,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertNull(quoteService.partialMatch("テスト", "text"));
+        assertNull(injectQuoteService.partialMatch("テスト", "text"));
 
     }
 
@@ -282,7 +286,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        actuaList.addAll(quoteService.partialMatch("は", "text"));
+        actuaList.addAll(injectQuoteService.partialMatch("は", "text"));
         expectedList.add(allList.get(0));
         expectedList.add(allList.get(1));
         assertIterableEquals(expectedList, actuaList);
@@ -306,7 +310,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        actuaList.addAll(quoteService.partialMatch("大", "author"));
+        actuaList.addAll(injectQuoteService.partialMatch("大", "author"));
         expectedList.add(allList.get(2));
         assertIterableEquals(expectedList, actuaList);
 
@@ -328,7 +332,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertNull(quoteService.partialMatch("ノーネイム", "author"));
+        assertNull(injectQuoteService.partialMatch("ノーネイム", "author"));
 
     }
 
@@ -344,7 +348,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertNull(quoteService.partialMatch("ノーネイム", "author"));
+        assertNull(injectQuoteService.partialMatch("ノーネイム", "author"));
 
     }
 
@@ -366,7 +370,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        actuaList.addAll(quoteService.partialMatch("ン", "author"));
+        actuaList.addAll(injectQuoteService.partialMatch("ン", "author"));
         expectedList.add(allList.get(0));
         expectedList.add(allList.get(1));
         assertIterableEquals(expectedList, actuaList);
@@ -391,7 +395,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        actuaList.addAll(quoteService.partialMatch("僕", "both"));
+        actuaList.addAll(injectQuoteService.partialMatch("僕", "both"));
         expectedList.add(allList.get(3));
         assertIterableEquals(expectedList, actuaList);
 
@@ -413,7 +417,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertNull(quoteService.partialMatch("両方", "both"));
+        assertNull(injectQuoteService.partialMatch("両方", "both"));
 
     }
 
@@ -429,7 +433,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertNull(quoteService.partialMatch("両方", "both"));
+        assertNull(injectQuoteService.partialMatch("両方", "both"));
 
     }
 
@@ -452,7 +456,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        actuaList.addAll(quoteService.partialMatch("僕", "both"));
+        actuaList.addAll(injectQuoteService.partialMatch("僕", "both"));
         expectedList.add(allList.get(0));
         expectedList.add(allList.get(4));
         assertIterableEquals(expectedList, actuaList);
@@ -477,7 +481,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        actuaList.addAll(quoteService.partialMatch("我", "both"));
+        actuaList.addAll(injectQuoteService.partialMatch("我", "both"));
         expectedList.add(allList.get(0));
         assertIterableEquals(expectedList, actuaList);
     }
@@ -501,7 +505,7 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        actuaList.addAll(quoteService.partialMatch("ン", "both"));
+        actuaList.addAll(injectQuoteService.partialMatch("ン", "both"));
         expectedList.add(allList.get(1));
         expectedList.add(allList.get(2));
         assertIterableEquals(expectedList, actuaList);
@@ -513,7 +517,7 @@ public class QuoteServiceTest {
     @Test
     void testStackTrace() {
         Mockito.when(quoteRepositoryMock.findAll()).thenThrow(new RuntimeException());
-        List<Quote> method = quoteService.partialMatch("僕", "text");
+        List<Quote> method = injectQuoteService.partialMatch("僕", "text");
         assertNull(method);
 
     }
