@@ -59,8 +59,7 @@ public class QuoteService {
      * 
      * @param quote 登録する名言オブジェクト
      * @return 実際に登録した名言オブジェクト
-     * @throw Exception 外部ファイルが開かない場合
-     *        外部ファイルに書き込みできない場合
+     * @throw Exception 外部ファイルが開かない場合 外部ファイルに書き込みできない場合
      */
     public Quote addQuote(Quote quote) {
         try {
@@ -174,4 +173,25 @@ public class QuoteService {
         }
     }
 
+    /**
+     * 名言の全数をカウントするメソッド
+     * 
+     * @author 平野
+     * @since 2025/05/23
+     * 
+     * @return 取得したQuoteオブジェクト
+     */
+
+    public int countQuotes() {
+        try {
+            int count = 0;
+            List<Quote> countList = quoteRepository.findAll();
+            count = countList.size();
+            return count;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
 }

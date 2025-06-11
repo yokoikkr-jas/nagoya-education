@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.doReturn;
-
+import static org.mockito.Mockito.when;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -13,9 +13,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.api.Order;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
@@ -25,6 +27,12 @@ import com.example.demo.quote.repository.QuoteRepository;
 @SpringBootTest
 public class QuoteServiceTest {
 
+    @Autowired
+    private QuoteService autowiredQuoteService;
+
+    @Autowired
+    private QuoteRepository autowiredQuoteRepository;
+
     @Mock
     private QuoteRepository quoteRepositoryMock;
 
@@ -33,6 +41,43 @@ public class QuoteServiceTest {
 
     @MockitoSpyBean
     private QuoteService quoteService;
+
+    @Test // DBにQuoteオブジェクトが存在するとき
+    @Order(1)
+    void testCountQuotes() {
+        autowiredQuoteRepository.deleteAll();
+        // テスト用のQuoteオブジェクトを3つ登録
+        autowiredQuoteRepository.save(new Quote("text1", "author1"));
+        autowiredQuoteRepository.save(new Quote("text2", "author2"));
+        autowiredQuoteRepository.save(new Quote("text3", "author3"));
+        // メソッドの実行
+        int count = autowiredQuoteService.countQuotes();
+
+        // アサーション（期待値との比較）
+        assertEquals(3, count);
+    }
+
+
+    @Test // DBが空のとき
+    @Order(3)
+    void testCountQuotesEmpty() {
+        // DBに登録された全てのオブジェクトを削除
+        autowiredQuoteRepository.deleteAll();
+
+        int count = autowiredQuoteService.countQuotes();
+        assertEquals(0, count);
+    }
+
+
+    @Test // 例外処理（DBからQuoteオブジェクトを取得できなかったとき）
+    @Order(2)
+    public void testCountQuotesError() {
+        // mockの動作を定義
+        when(quoteRepositoryMock.findAll()).thenThrow(new RuntimeException("DB接続エラー"));
+
+        int result = injectQuoteService.countQuotes();
+        assertEquals(0, result);
+    }
 
     /*
      * ヘッダーのみが入力されている外部ファイルにデータが出力される
