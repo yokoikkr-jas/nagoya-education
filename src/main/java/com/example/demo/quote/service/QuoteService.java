@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.quote.repository.QuoteRepository;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.*;
 
 /**
@@ -38,23 +40,63 @@ public class QuoteService {
     }
 
     /**
+     * 外部ファイルパス取得メソッド
+     * 
+     * @author 鈴木
+     * @since 2025/06/03
+     * 
+     * @return 外部ファイルの相対パス
+     */
+    public String getFilePath() {
+        return "src\\main\\java\\com\\example\\demo\\Quote.csv";
+    }
+
+    /**
      * 名言登録メソッド
      * 
-     * @author 横井
-     * @since 2025/05/09
+     * @author 鈴木
+     * @since 2025/05/26
      * 
      * @param quote 登録する名言オブジェクト
      * @return 実際に登録した名言オブジェクト
+     * @throw Exception 外部ファイルが開かない場合
+     *        外部ファイルに書き込みできない場合
      */
     public Quote addQuote(Quote quote) {
         try {
             Quote savedQuote = quoteRepository.save(quote);
             // 課題2 登録時の外部ファイル書き込み
-            return savedQuote;
+
+            String text = savedQuote.getText();
+            String author = savedQuote.getAuthor();
+            String filePath = getFilePath();
+
+            // text：名言オブジェクトに格納されている名言
+            // author：名言オブジェクトに格納されている著者
+            // filePath：外部ファイルの相対パス
+
+            FileWriter file = new FileWriter(filePath, true);
+            BufferedWriter writer = new BufferedWriter(file);
+
+            try {
+                // 外部ファイルへの書き込み
+                writer.write(text);
+                writer.write(",");
+                writer.write(author);
+                writer.newLine();
+                return savedQuote;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                writer.close();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+
     }
 
     /**
