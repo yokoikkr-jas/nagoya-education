@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Search Quotes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            padding: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #555;
+        }
+
+        .quote-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .quote-item {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Search Quotes</h1>
+    <div class="search-container">
+        <input type="number" id="lengthBox" class="search-box" placeholder="Enter length...">
+        <select id="conditionBox" class="search-box">
+            <option value="less">Less than</option>
+            <option value="equal">Equal to</option>
+            <option value="greater">Greater than</option>
+        </select>
+        <button class="search-button" onclick="searchQuotes()">Search</button>
+    </div>
+    <ul id="quoteList" class="quote-list"></ul>
+    <script>
+        function searchQuotes() {
+            const length = document.getElementById('lengthBox').value;
+            const condition = document.getElementById('conditionBox').value;
+            fetch(`/quotes/searchByLength?length=${length}&condition=${condition}`)
+                .then(response => response.json())
+                .then(data => {
+                    const quoteList = document.getElementById('quoteList');
+                    quoteList.innerHTML = '';
+                    data.forEach(quote => {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'quote-item';
+                        listItem.textContent = `${quote.text} - ${quote.author}`;
+                        quoteList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching quotes:', error))
+        }
+    </script>
+</body>
+
+</body>

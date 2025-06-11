@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Random Quote</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .quote-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .back-button {
+            background-color: #ccc;
+            color: #333;
+            border: none;
+            padding: 15px 32px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: backgroud-color 0.3s;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .back-button:hover {
+            background-color: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="quote-container">
+        <h1>Random Quote</h1>
+        <p id="randomQuote"></p>
+    </div>
+    <button class="back-button" onclick="location.href='quotes-home.html'">戻る</button>
+    <script>
+        fetch('/quotes/random')
+            .then(response => response.json())
+            .then(data => {
+                const randomQuote = document.getElementById('randomQuote');
+                randomQuote.textContent = `${data.text}-${data.author}`;
+            })
+            .catch(error => console.error('Error feching random quote:', error));
+    </script>
+</body>
+
+</html>
