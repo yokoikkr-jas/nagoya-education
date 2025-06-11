@@ -42,13 +42,23 @@ public class QuoteController {
         return randQuote;
     }
 
+    /**
+     * 検索機能(部分一致)
+     * 
+     * @author 太田
+     * @since 2025/05/26
+     * 
+     * @param query
+     * @param option
+     * @return partialMatchの戻り値
+     */
     @GetMapping("/search")
     public List<Quote> searchQuotes(@RequestParam String query, @RequestParam String option) {
         // 課題3 検索機能(部分一致)
         // 引数optionには、名言のみ：text、著者：author、両方：bothがくる
-        List<Quote> a = new ArrayList();
-        a.add(new Quote("hoge query", "hoge author"));
-        return a;
+        List<Quote> list = new ArrayList<>();
+        list.addAll(quoteService.partialMatch(query, option));
+        return list;
     }
 
     @GetMapping("/searchByLength")
@@ -75,7 +85,7 @@ public class QuoteController {
     @GetMapping("/count")
     public int countQuotes() {
         // 課題6 名言の全数カウント
-        int count = 0;
-        return count;
+        int countquote = quoteService.countQuotes();
+        return countquote;
     }
 }
