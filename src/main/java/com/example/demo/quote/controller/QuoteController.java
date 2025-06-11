@@ -42,13 +42,23 @@ public class QuoteController {
         return randQuote;
     }
 
+    /**
+     * 検索機能(部分一致)
+     * 
+     * @author 太田
+     * @since 2025/05/26
+     * 
+     * @param query
+     * @param option
+     * @return partialMatchの戻り値
+     */
     @GetMapping("/search")
     public List<Quote> searchQuotes(@RequestParam String query, @RequestParam String option) {
         // 課題3 検索機能(部分一致)
         // 引数optionには、名言のみ：text、著者：author、両方：bothがくる
-        List<Quote> a = new ArrayList<>();
-        a.add(new Quote("hoge query", "hoge author"));
-        return a;
+        List<Quote> list = new ArrayList<>();
+        list.addAll(quoteService.partialMatch(query, option));
+        return list;
     }
 
     @GetMapping("/searchByLength")
@@ -64,19 +74,19 @@ public class QuoteController {
     @GetMapping("/statistics")
     public Map<String, Object> getQuoteStatistics() {
         // 課題5 名言の統計情報
-        Map<String, Object> a = new HashMap<>();
-        Quote b = new Quote("hoge quote", "hoge author");
-        a.put("averageLength", 3);
-        a.put("longestQuote", b);
-        a.put("shortestQuote", b);
 
-        return a;
+        // Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
+        // QuoteServiceクラスの対象メソッドを呼び出す
+        Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
+        // QuoteServiceクラスの対象メソッドを呼び出す
+
+        return statisticsResult;
     }
 
     @GetMapping("/count")
     public int countQuotes() {
         // 課題6 名言の全数カウント
-        int count = 0;
-        return count;
+        int countquote = quoteService.countQuotes();
+        return countquote;
     }
 }
