@@ -65,7 +65,7 @@ public class QuoteController {
     public List<Quote> searchByLength(@RequestParam String length, @RequestParam String condition) {
         // 課題4 検索機能（文字数検索）
         // 引数optionには、以下：less、著者：equal、両方：greaterがくる
-        List<Quote> a = new ArrayList<>();
+        List<Quote> a = new ArrayList();
         a.add(new Quote("hoge query", "hoge author"));
         return a;
     }
@@ -73,13 +73,13 @@ public class QuoteController {
     @GetMapping("/statistics")
     public Map<String, Object> getQuoteStatistics() {
         // 課題5 名言の統計情報
-        Map<String, Object> a = new HashMap<>();
-        Quote b = new Quote("hoge quote", "hoge author");
-        a.put("averageLength", 3);
-        a.put("longestQuote", b);
-        a.put("shortestQuote", b);
 
-        return a;
+        // Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
+        // QuoteServiceクラスの対象メソッドを呼び出す
+        Map<String, Object> statisticsResult = quoteService.getQuoteStatistics();
+        // QuoteServiceクラスの対象メソッドを呼び出す
+
+        return statisticsResult;
     }
 
     @GetMapping("/count")
