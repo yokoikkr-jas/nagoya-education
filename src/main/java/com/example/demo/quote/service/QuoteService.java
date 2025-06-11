@@ -285,4 +285,65 @@ public class QuoteService {
         }
 
     }
+
+    /**
+     * 文字数検索メソッド
+     * 
+     * @author 平野
+     * @since 2025/05/29
+     * 
+     * @param length 検索欄に入力された検索文字数
+     * @param condition 未満、同じ、より大きいの文字数比較条件
+     * @return 取得した名言オブジェクトを格納したリスト
+     */
+    public List<Quote> searchByLength(String length, String condition) {
+        try {
+            if (length == null) {// 検索欄に検索文字数が入力されずに検索されたとき
+                return null;
+            }
+
+            // DBに登録された全ての名言オブジェクトを取得
+            List<Quote> searchList = quoteRepository.findAll();
+
+            // 条件を満たしたQuoteオブジェクトを格納するリストを定義
+            List<Quote> list = new ArrayList<>();
+
+            int ilength = Integer.parseInt(length);// 検索文字数をint型に変換
+
+            if (condition.equals("less")) {
+                for (Quote text : searchList) {// searchListからQuoteオブジェクトを一行ずつ取り出す
+                    String textQuotes = text.getText();// getText()で名言オブジェクトのみ取り出す
+                    int quoteLength = textQuotes.length();// 名言オブジェクトを文字数に変換
+
+                    if (ilength > quoteLength) {
+                        list.add(text);
+                    }
+                }
+            } else if (condition.equals("equal")) {
+                for (Quote text : searchList) {
+                    String textQuotes = text.getText();
+                    int quoteLength = textQuotes.length();
+
+                    if (ilength == quoteLength) {
+                        list.add(text);
+                    }
+                }
+            } else if (condition.equals("greater")) {
+                for (Quote text : searchList) {
+                    String textQuotes = text.getText();
+                    int quoteLength = textQuotes.length();
+
+                    if (ilength < quoteLength) {
+                        list.add(text);
+                    }
+                }
+            }
+            return list;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

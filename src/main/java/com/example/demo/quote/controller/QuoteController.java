@@ -64,10 +64,11 @@ public class QuoteController {
     @GetMapping("/searchByLength")
     public List<Quote> searchByLength(@RequestParam String length, @RequestParam String condition) {
         // 課題4 検索機能（文字数検索）
-        // 引数optionには、以下：less、著者：equal、両方：greaterがくる
-        List<Quote> a = new ArrayList();
-        a.add(new Quote("hoge query", "hoge author"));
-        return a;
+        // 引数conditionには、以下：less、同じ：equal、以上：greaterがくる
+
+        // searchByLengthメソッドの呼び出し
+        List<Quote> search = quoteService.searchByLength(length, condition);
+        return search;
     }
 
     @GetMapping("/statistics")
