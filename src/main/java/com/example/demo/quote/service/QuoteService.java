@@ -226,23 +226,29 @@ public class QuoteService {
     public List<Quote> partialMatch(String searchString, String subject) {
         try {
             List<Quote> list = new ArrayList<>(); // 部分一致する名言オブジェクトの格納先
+            List<Quote> allQuotes = getAllQuotes(); // DBに登録されたQuoteオブジェクトを取得
+
+            if (searchString.isEmpty()) { // queryが空の場合、取得したQuoteオブジェクトを返却
+                return allQuotes;
+            }
+
             switch (subject) { // optionによる分岐（名言のみ、著者、両方）
                 case "text":
-                    for (Quote quotes : getAllQuotes()) { // DB上リストのサイズまで繰り返す
+                    for (Quote quotes : allQuotes) { // DB上リストのサイズまで繰り返す
                         if (quotes.getText().contains(searchString)) { // 部分一致:true
                             list.add(quotes);
                         }
                     }
                     break;
                 case "author":
-                    for (Quote quotes : getAllQuotes()) {
+                    for (Quote quotes : allQuotes) {
                         if (quotes.getAuthor().contains(searchString)) {
                             list.add(quotes);
                         }
                     }
                     break;
                 case "both":
-                    for (Quote quotes : getAllQuotes()) {
+                    for (Quote quotes : allQuotes) {
                         if (quotes.getText().contains(searchString)) {
                             list.add(quotes);
                         } else if (quotes.getAuthor().contains(searchString)) {
@@ -252,8 +258,8 @@ public class QuoteService {
                     break;
             }
 
-            if (list.isEmpty()) { // 部分一致する文字列のリストbが空の場合、nullを返却
-                return null;
+            if (list.isEmpty()) { // 部分一致する文字列のリストlistが空の場合、空のリストを返却
+                return list;
             }
 
             return list;
@@ -292,7 +298,7 @@ public class QuoteService {
      * @author 平野
      * @since 2025/05/29
      * 
-     * @param length 検索欄に入力された検索文字数
+     * @param length    検索欄に入力された検索文字数
      * @param condition 未満、同じ、より大きいの文字数比較条件
      * @return 取得した名言オブジェクトを格納したリスト
      */
