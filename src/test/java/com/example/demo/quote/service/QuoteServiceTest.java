@@ -49,7 +49,6 @@ public class QuoteServiceTest {
         assertNull(result);
     }
 
-
     // 検索文字数が入力されずに検索(Equal toのとき)
     @Test
     void testSearchByLengthNullEqual() {
@@ -57,15 +56,12 @@ public class QuoteServiceTest {
         assertNull(result);
     }
 
-
     // 検索文字数が入力されずに検索(Greater thanのとき)
     @Test
     void testSearchByLengthNullGreater() {
         List<Quote> result = injectQuoteService.searchByLength(null, "greater");
         assertNull(result);
     }
-
-
 
     // 0文字未満の名言を検索
     @Test
@@ -81,7 +77,6 @@ public class QuoteServiceTest {
         assertTrue(result.isEmpty());
     }
 
-
     // 0文字の名言を検索
     @Test
     void testSearchByLengthEqualZero() {
@@ -95,7 +90,6 @@ public class QuoteServiceTest {
         List<Quote> result = injectQuoteService.searchByLength("0", "equal");
         assertTrue(result.isEmpty());
     }
-
 
     // 0文字より大きい名言を検索
     @Test
@@ -113,8 +107,6 @@ public class QuoteServiceTest {
         value.add(quotes.get(0));
         assertEquals(value, result);
     }
-
-
 
     // 正常Less than
     @Test // 一致する名言オブジェクトが一つのとき
@@ -136,7 +128,6 @@ public class QuoteServiceTest {
         assertEquals(value, result);
     }
 
-
     @Test // 一致するQuoteオブジェクトが複数のとき
     void testSearchByLengthLessMultiple() {
         List<Quote> quotes = new ArrayList<>();
@@ -153,7 +144,6 @@ public class QuoteServiceTest {
         assertEquals(value, result);
     }
 
-
     @Test // 一致するQuoteオブジェクトがなかったとき→空のリストを返す
     void testSearchByLengthLessEmpty() {
         List<Quote> quotes = new ArrayList<>();
@@ -166,8 +156,6 @@ public class QuoteServiceTest {
         result.addAll(injectQuoteService.searchByLength("5", "less"));
         assertEquals(Collections.emptyList(), result);
     }
-
-
 
     // 正常Equal to
     @Test // 一致する名言オブジェクトが一つのとき
@@ -185,7 +173,6 @@ public class QuoteServiceTest {
         assertEquals(value, result);
     }
 
-
     @Test // 一致するQuoteオブジェクトが複数のとき
     void testSearchByLengthEqualMultiple() {
         List<Quote> quotes = new ArrayList<>();
@@ -202,7 +189,6 @@ public class QuoteServiceTest {
         assertEquals(value, result);
     }
 
-
     @Test // 一致するQuoteオブジェクトがなかったとき→空のリストを返す
     void testSearchByLengthEqualEmpty() {
         List<Quote> quotes = new ArrayList<>();
@@ -215,8 +201,6 @@ public class QuoteServiceTest {
         result.addAll(injectQuoteService.searchByLength("3", "equal"));
         assertEquals(Collections.emptyList(), result);
     }
-
-
 
     // 正常Greater than
     @Test // 一致する名言オブジェクトが一つのとき
@@ -234,7 +218,6 @@ public class QuoteServiceTest {
         assertEquals(value, result);
     }
 
-
     @Test // 一致する名言オブジェクトが複数のとき
     void testSearchByLengthGreaterMultiple() {
         List<Quote> quotes = new ArrayList<>();
@@ -251,7 +234,6 @@ public class QuoteServiceTest {
         assertEquals(value, result);
     }
 
-
     @Test // 一致するQuoteオブジェクトがなかったとき→空のリストを返す
     void testSearchByLengthGreaterEmpty() {
         List<Quote> quotes = new ArrayList<>();
@@ -264,8 +246,6 @@ public class QuoteServiceTest {
         result.addAll(injectQuoteService.searchByLength("30", "greater"));
         assertEquals(Collections.emptyList(), result);
     }
-
-
 
     // 例外処理
     // DBからQuoteオブジェクトを取得できなかったとき
@@ -512,7 +492,6 @@ public class QuoteServiceTest {
         assertEquals(3, count);
     }
 
-
     @Test // DBが空のとき
     @Order(3)
     void testCountQuotesEmpty() {
@@ -522,7 +501,6 @@ public class QuoteServiceTest {
         int count = autowiredQuoteService.countQuotes();
         assertEquals(0, count);
     }
-
 
     @Test // 例外処理（DBからQuoteオブジェクトを取得できなかったとき）
     @Order(2)
@@ -566,8 +544,7 @@ public class QuoteServiceTest {
         Path csvFile = Files.write //
         (Files.createTempFile(tempDir, "sample2-", ".csv"), initialLines);
 
-        List<String> expectedList =
-                List.of("quote,author", "text1,author1", "text2,author2", "text3,author3");
+        List<String> expectedList = List.of("quote,author", "text1,author1", "text2,author2", "text3,author3");
 
         String csvFilePath = csvFile.toString();
 
@@ -590,8 +567,7 @@ public class QuoteServiceTest {
         Path csvFile = Files.write //
         (Files.createTempFile(tempDir, "sample3-", ".csv"), initialLines);
 
-        List<String> expectedList =
-                List.of("quote,author", "text1,author1", "text2,author2", "text3,author3");
+        List<String> expectedList = List.of("quote,author", "text1,author1", "text2,author2", "text3,author3");
 
         String csvFilePath = csvFile.toString();
 
@@ -653,7 +629,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 出力する外部ファイルが存在しない、かつ、ファイルを作成できない(ディレクトリを削除して状況を再現)場合、nullを返却する 外側のtry-catch、ファイル読み込み時の例外
+     * 出力する外部ファイルが存在しない、かつ、ファイルを作成できない(ディレクトリを削除して状況を再現)場合、nullを返却する
+     * 外側のtry-catch、ファイル読み込み時の例外
      */
     @Test
     void testAddQuote6(@TempDir Path tempDir) throws Exception {
@@ -676,7 +653,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 出力するファイルが通常ファイルとして存在していない(ディレクトリとして存在している)場合、nullを返却する 外側のtry-catch、ファイル読み込み時の例外
+     * 出力するファイルが通常ファイルとして存在していない(ディレクトリとして存在している)場合、nullを返却する
+     * 外側のtry-catch、ファイル読み込み時の例外
      */
     @Test
     void testAddQuote7(@TempDir Path tempDir) throws Exception {
@@ -711,7 +689,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"地球"、option"text"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。
+     * 入力値：query"地球"、option"text"
      * 期待する結果：text"地球は青かった", author"ガガーリン"
      * 
      * 内容：検索対象が名言のみの場合、部分一致した名言オブジェクトの リストを作成し、そのリストを取り出せるかどうか。
@@ -734,7 +713,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"テスト", option"text"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"テスト",
+     * option"text"
      * 期待する結果：null
      * 
      * 内容：検索対象が名言のみの場合、部分一致した名言オブジェクトの リストが空っぽの際にnull。
@@ -753,7 +733,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"テスト", option"text"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"テスト",
+     * option"text"
      * 期待する結果：null
      * 
      * 内容：DBから受け取ったリストが空っぽの場合はnull。
@@ -769,7 +750,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"は", option"text"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"は",
+     * option"text"
      * 期待する結果："地球は青かった", "ガガーリン" "天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"
      * 
      * 内容：リスト内の要素位置からループの１回目と２回目を確認し、ループの開始地点と 終了条件に誤りがないか。
@@ -793,7 +775,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"大"、option"author"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。
+     * 入力値：query"大"、option"author"
      * 期待する結果：text"憧れるのをやめましょう", author"大谷翔平"
      * 
      * 内容：検索対象が著者の場合、部分一致した名言オブジェクトの リストを作成し、そのリストを取り出せるかどうか。
@@ -817,7 +800,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"ノーネイム", option"author"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"ノーネイム",
+     * option"author"
      * 期待する結果：null
      * 
      * 内容：検索対象が著者の場合、部分一致した名言オブジェクトの リストが空っぽの際にnull。
@@ -837,7 +821,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"ノーネイム", option"author"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"ノーネイム",
+     * option"author"
      * 期待する結果：null
      * 
      * 内容：DBから受け取ったリストが空っぽの場合はnull。
@@ -853,7 +838,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"ン", option"author"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"ン",
+     * option"author"
      * 期待する結果："地球は青かった", "ガガーリン" "天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"
      * 
      * 内容：ループの１回目と２回目のリスト内の要素位置を確認し、ループの開始地点と 終了条件に誤りがないか。
@@ -877,7 +863,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"僕"、option"both"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。
+     * 入力値：query"僕"、option"both"
      * 期待する結果：text"僕の大冒険", author"僕"
      * 
      * 内容：検索対象が両方の場合、部分一致した名言オブジェクトの リストを作成し、そのリストを取り出せるかどうか。名言と著者に同じ
@@ -902,7 +889,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"両方", option"both"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"両方",
+     * option"both"
      * 期待する結果：null
      * 
      * 内容：検索対象が両方の場合、部分一致した名言オブジェクトの リストが空っぽの際にnull。
@@ -922,7 +910,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"両方", option"both"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"両方",
+     * option"both"
      * 期待する結果：null
      * 
      * 内容：DBから受け取ったリストが空っぽの場合はnull。
@@ -938,7 +927,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"僕", option"both"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"僕",
+     * option"both"
      * 期待する結果："僕のお家", "僕家" "僕の大冒険", "僕"
      * 
      * 内容：ループの１個目と２個目のリスト内の要素位置を確認し、ループの開始地点と 終了条件に誤りがないか。
@@ -963,7 +953,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"我", option"both"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"我",
+     * option"both"
      * 期待する結果："僕のお家", "我家"
      * 
      * 内容：著者分岐の場合にループ１個目の処理が適切に行われるか。
@@ -987,7 +978,8 @@ public class QuoteServiceTest {
     }
 
     /*
-     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"ン", option"both"
+     * 前提条件：DBから名言オブジェクトを取得 手順：キーワードqueryと検索対象optionの条件で検索を行う。 入力値：query"ン",
+     * option"both"
      * 期待する結果："地球は青かった", "ガガーリン" "天才は1%のひらめきと99%の努力でつくられる","トーマス・エジソン"
      * 
      * 内容：著者分岐の場合にループ2個目以降の処理が適切に行われるか。

@@ -146,8 +146,14 @@ public class QuoteService {
 
             // 全てのquotesを取得
 
+            Quote maxBox = new Quote();
+            // 最長を格納する箱
+            Quote minBox = new Quote();
+            // 最短を格納する箱
+
             if (allQuotes.isEmpty()) {
                 // もし名言オブジェクト一覧が空ならば、
+
                 return statistics;
                 // statisticsを返却（追加）
             }
@@ -160,11 +166,6 @@ public class QuoteService {
 
             int totalLength = 0;
             // 全ての文字数の合計の初期値設定
-
-            Quote maxBox = new Quote();
-            // 最長を格納する箱
-            Quote minBox = new Quote();
-            // 最短を格納する箱
 
             for (Quote quotes : allQuotes) {
                 // 各要素を順番に取り出して最後の名言まで調べる
@@ -292,7 +293,7 @@ public class QuoteService {
      * @author 平野
      * @since 2025/05/29
      * 
-     * @param length 検索欄に入力された検索文字数
+     * @param length    検索欄に入力された検索文字数
      * @param condition 未満、同じ、より大きいの文字数比較条件
      * @return 取得した名言オブジェクトを格納したリスト
      */
