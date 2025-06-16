@@ -64,7 +64,7 @@ public class QuoteController {
     @GetMapping("/searchByLength")
     public List<Quote> searchByLength(@RequestParam String length, @RequestParam String condition) {
         // 課題4 検索機能（文字数検索）
-        // 引数conditionには、以下：less、同じ：equal、以上：greaterがくる
+        // 引数conditionには、未満：less、同じ：equal、より大きい：greaterがくる
 
         // searchByLengthメソッドの呼び出し
         List<Quote> search = quoteService.searchByLength(length, condition);

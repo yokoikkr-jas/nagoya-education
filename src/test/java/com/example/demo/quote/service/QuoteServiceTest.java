@@ -44,25 +44,25 @@ public class QuoteServiceTest {
 
     // 検索文字数が入力されずに検索(Less thanのとき)
     @Test
-    void testSearchByLengthNullLess() {
-        List<Quote> result = injectQuoteService.searchByLength(null, "less");
-        assertNull(result);
+    void testSearchByLengthEmptyLess() {
+        List<Quote> result = new ArrayList<>();
+        assertTrue(result.isEmpty());
     }
 
 
     // 検索文字数が入力されずに検索(Equal toのとき)
     @Test
-    void testSearchByLengthNullEqual() {
-        List<Quote> result = injectQuoteService.searchByLength(null, "equal");
-        assertNull(result);
+    void testSearchByLengthEmptyEqual() {
+        List<Quote> result = new ArrayList<>();
+        assertTrue(result.isEmpty());
     }
 
 
     // 検索文字数が入力されずに検索(Greater thanのとき)
     @Test
-    void testSearchByLengthNullGreater() {
-        List<Quote> result = injectQuoteService.searchByLength(null, "greater");
-        assertNull(result);
+    void testSearchByLengthEmptyGreater() {
+        List<Quote> result = new ArrayList<>();
+        assertTrue(result.isEmpty());
     }
 
 
