@@ -298,9 +298,11 @@ public class QuoteService {
      */
     public List<Quote> searchByLength(String length, String condition) {
         try {
-            if (length == null) {// 検索欄に検索文字数が入力されずに検索されたとき
-                return null;
+            if (length.isEmpty()) {// 検索欄に検索文字数が入力されずに検索されたとき
+                List<Quote> listEmpty = new ArrayList<>();
+                return listEmpty;
             }
+
 
             // DBに登録された全ての名言オブジェクトを取得
             List<Quote> searchList = quoteRepository.findAll();
