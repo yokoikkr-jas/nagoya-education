@@ -722,6 +722,7 @@ public class QuoteServiceTest {
     @Test
     void testPartialMatchText_quoteEmpty() {
         List<Quote> allList = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
         allList.add(new Quote("地球は青かった", "ガガーリン"));
         allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
         allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
@@ -729,7 +730,8 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertTrue(injectQuoteService.partialMatch("テスト", "text").isEmpty());
+        actuaList = injectQuoteService.partialMatch("テスト", "text");
+        assertTrue(actuaList.isEmpty());
     }
 
     /*
@@ -742,10 +744,12 @@ public class QuoteServiceTest {
     @Test
     void testPartialMatchText_dbEmpty() {
         List<Quote> allList = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertTrue(injectQuoteService.partialMatch("テスト", "text").isEmpty());
+        actuaList = injectQuoteService.partialMatch("テスト", "text");
+        assertTrue(actuaList.isEmpty());
 
     }
 
@@ -831,6 +835,7 @@ public class QuoteServiceTest {
     @Test
     void testPartialMatchAuthor_quoteEmpty() {
         List<Quote> allList = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
         allList.add(new Quote("地球は青かった", "ガガーリン"));
         allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
         allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
@@ -838,7 +843,8 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertTrue(injectQuoteService.partialMatch("ノーネイム", "author").isEmpty());
+        actuaList = injectQuoteService.partialMatch("ノーネイム", "author");
+        assertTrue(actuaList.isEmpty());
 
     }
 
@@ -852,10 +858,12 @@ public class QuoteServiceTest {
     @Test
     void testPartialMatchAuthor_dbEmpty() {
         List<Quote> allList = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertTrue(injectQuoteService.partialMatch("ノーネイム", "author").isEmpty());
+        actuaList = injectQuoteService.partialMatch("ノーネイム", "author");
+        assertTrue(actuaList.isEmpty());
 
     }
 
@@ -942,6 +950,7 @@ public class QuoteServiceTest {
     @Test
     void testPartialMatchBoth_quoteEmpty() {
         List<Quote> allList = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
         allList.add(new Quote("地球は青かった", "ガガーリン"));
         allList.add(new Quote("天才は1%のひらめきと99%の努力でつくられる", "トーマス・エジソン"));
         allList.add(new Quote("憧れるのをやめましょう", "大谷翔平"));
@@ -949,7 +958,8 @@ public class QuoteServiceTest {
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertTrue(injectQuoteService.partialMatch("両方", "both").isEmpty());
+        actuaList = injectQuoteService.partialMatch("両方", "both");
+        assertTrue(actuaList.isEmpty());
 
     }
 
@@ -963,10 +973,12 @@ public class QuoteServiceTest {
     @Test
     void testPartialMatchBoth_dbEmpty() {
         List<Quote> allList = new ArrayList<>();
+        List<Quote> actuaList = new ArrayList<>();
 
         Mockito.when(quoteRepositoryMock.findAll()).thenReturn(allList);
 
-        assertTrue(injectQuoteService.partialMatch("両方", "both").isEmpty());
+        actuaList = injectQuoteService.partialMatch("両方", "both");
+        assertTrue(actuaList.isEmpty());
 
     }
 
