@@ -214,57 +214,6 @@ public class QuoteService {
     }
 
     /**
-     * 部分一致検索を行うメソッド
-     * 
-     * @author 太田
-     * @since 2025/05/26
-     * 
-     * @param searchString
-     * @param subject
-     * @return 指定された文字列と部分一致する名言オブジェクトのリスト
-     */
-    public List<Quote> partialMatch(String searchString, String subject) {
-        try {
-            List<Quote> list = new ArrayList<>(); // 部分一致する名言オブジェクトの格納先
-            switch (subject) { // optionによる分岐（名言のみ、著者、両方）
-                case "text":
-                    for (Quote quotes : getAllQuotes()) { // DB上リストのサイズまで繰り返す
-                        if (quotes.getText().contains(searchString)) { // 部分一致:true
-                            list.add(quotes);
-                        }
-                    }
-                    break;
-                case "author":
-                    for (Quote quotes : getAllQuotes()) {
-                        if (quotes.getAuthor().contains(searchString)) {
-                            list.add(quotes);
-                        }
-                    }
-                    break;
-                case "both":
-                    for (Quote quotes : getAllQuotes()) {
-                        if (quotes.getText().contains(searchString)) {
-                            list.add(quotes);
-                        } else if (quotes.getAuthor().contains(searchString)) {
-                            list.add(quotes);
-                        }
-                    }
-                    break;
-            }
-
-            if (list.isEmpty()) { // 部分一致する文字列のリストbが空の場合、nullを返却
-                return null;
-            }
-
-            return list;
-
-        } catch (Exception e) {
-            e.printStackTrace(); // スタックトレースを出力する
-            return null;
-        }
-    }
-
-    /**
      * 名言の全数をカウントするメソッド
      * 
      * @author 平野
@@ -292,7 +241,7 @@ public class QuoteService {
      * @author 平野
      * @since 2025/05/29
      * 
-     * @param length 検索欄に入力された検索文字数
+     * @param length    検索欄に入力された検索文字数
      * @param condition 未満、同じ、より大きいの文字数比較条件
      * @return 取得した名言オブジェクトを格納したリスト
      */

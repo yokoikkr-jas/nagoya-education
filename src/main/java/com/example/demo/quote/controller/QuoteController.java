@@ -45,19 +45,20 @@ public class QuoteController {
     /**
      * 検索機能(部分一致)
      * 
-     * @author 太田
-     * @since 2025/05/26
+     * @author
+     * @since
      * 
      * @param query
      * @param option
-     * @return partialMatchの戻り値
+     * @return
      */
     @GetMapping("/search")
     public List<Quote> searchQuotes(@RequestParam String query, @RequestParam String option) {
         // 課題3 検索機能(部分一致)
         // 引数optionには、名言のみ：text、著者：author、両方：bothがくる
         List<Quote> list = new ArrayList<>();
-        list.addAll(quoteService.partialMatch(query, option));
+        // 二階作成メソッドの返り値をlistに詰める
+
         return list;
     }
 
