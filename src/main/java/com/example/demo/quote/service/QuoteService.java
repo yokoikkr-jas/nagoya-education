@@ -295,4 +295,49 @@ public class QuoteService {
         }
     }
 
+    public List<Quote> searchQuotes(String query, String option) {
+
+        try {
+            if (query == null) {// 検索窓に文字列がない場合、nullを返す
+                return null;
+            }
+            // DBに登録された全ての名言オブジェクトを取得
+            List<Quote> searchQuotesList = quoteRepository.findAll();
+            // 条件を満たしたQuoteオブジェクトを格納するリストを定義
+            List<Quote> list = new ArrayList<>();
+
+            switch (option) {
+                case "text":
+                    for (Quote resultQuote : searchQuotesList) {
+                        String textQuotes = resultQuote.getText();
+                        if (textQuotes.contains(query)) {
+                            list.add(resultQuote);
+                        }
+                    }
+                    break;
+                case "author":
+                    for (Quote resultQuote : searchQuotesList) {
+                        String authorQuotes = resultQuote.getAuthor();
+                        if (authorQuotes.contains(query)) {
+                            list.add(resultQuote);
+                        }
+                    }
+                    break;
+                case "both":
+                    for (Quote resultQuote : searchQuotesList) {
+                        String authorQuotes = resultQuote.getAuthor();
+                        String textQuotes = resultQuote.getText();
+                        if (authorQuotes.contains(query) || textQuotes.contains(query)) {
+                            list.add(resultQuote);
+                        }
+                    }
+                    break;
+            }
+
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
